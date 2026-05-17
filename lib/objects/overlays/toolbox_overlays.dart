@@ -72,59 +72,69 @@ class _ToolboxOverlaysState extends State<ToolboxOverlays> {
     });
   }
 
-  selectorWidget(){
+  @override
+  Widget build(BuildContext context) {
+    double scale = 2.0;
+    double actualWidth = panelHeight * scale; // 310 * 2 = 620
+    double actualHeight = panelWidth * scale; // 36 * 2 = 72
+
     return Align(
       alignment: Alignment.bottomCenter,
       child: Container(
-        margin: EdgeInsets.only(bottom: 20, left: 10),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            for(var i = 0; i < 10; i++)
-              Container(
-                padding: const EdgeInsets.only(left: 10, right: 20),
-                margin: const EdgeInsets.only(bottom: 4),
-                child: Transform.scale(
-                    scale: 2.0,
-                    child: selectIndex == i ? SpriteWidget(
-                      sprite: Sprite(
-                        srcSize: Vector2(30, 28),
-                        game.images.fromCache('overlays/toolbox_selector_overlays.png'),
+        margin: const EdgeInsets.only(bottom: 20),
+        // FittedBox scales down the UI to fit the screen if it's narrower than 620px, ensuring all 10 slots are visible
+        child: FittedBox(
+          fit: BoxFit.scaleDown,
+          child: SizedBox(
+            width: actualWidth,
+            height: actualHeight,
+            child: Stack(
+              children: [
+                // 1. Background panel image (Contains exactly 10 slots)
+                Positioned(
+                  left: 0,
+                  top: 0,
+                  child: Transform.scale(
+                    scale: scale,
+                    alignment: Alignment.topLeft,
+                    child: SizedBox(
+                      width: panelHeight,
+                      height: panelWidth,
+                      child: SpriteWidget(
+                        sprite: Sprite(
+                          game.images.fromCache('overlays/toolbox_overlays.png'),
+                          srcSize: Vector2(panelHeight, panelWidth),
+                        ),
                       ),
-                    ) : const SizedBox(
-                      height: 28,
-                      width: 30,
-                    )
-                ),
-              ),
-          ],
-        )
-      ),
-    );
-
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Align(
-          alignment: Alignment.bottomCenter,
-          child: Container(
-            margin: EdgeInsets.only(bottom: 20),
-            child: Transform.scale(
-              scale: 2.0,
-              child: SpriteWidget(
-                  sprite: Sprite(
-                    srcSize: Vector2(panelHeight, panelWidth),
-                    game.images.fromCache('overlays/toolbox_overlays.png'),
+                    ),
                   ),
-              )
+                ),
+                // 2. Selector (Slides across based on standard pixel formula)
+                Positioned(
+                  // Background length is 310px. Left wooden margin is 4px. Each slot spacing is 30px.
+                  // 4 + (10 slots * 30px) = 304, leaving 6px for the right wooden margin drop shadow -> Matches 310px!
+                  left: (5.0 + selectIndex * 30.0) * scale, 
+                  top: ((panelWidth - 28.0) / 2) * scale,   // (36 - 28)/2 = 4px (vertically centered)
+                  child: Transform.scale(
+                    scale: scale,
+                    alignment: Alignment.topLeft,
+                    child: SizedBox(
+                      width: 30.0,
+                      height: 28.0,
+                      child: SpriteWidget(
+                        sprite: Sprite(
+                          game.images.fromCache('overlays/toolbox_selector_overlays.png'),
+                          srcSize: Vector2(30.0, 28.0),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ),
-        selectorWidget()
-      ],
+      ),
     );
   }
 }

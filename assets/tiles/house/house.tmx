@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="20" height="20" tilewidth="16" tileheight="16" infinite="0" nextlayerid="7" nextobjectid="22">
  <tileset firstgid="1" name="house_walls" tilewidth="16" tileheight="16" tilecount="15" columns="5">
-  <image source="../../images/resources/house_walls.png" width="80" height="48"/>
+  <image source="house_walls.png" width="80" height="48"/>
  </tileset>
  <tileset firstgid="16" name="house_roof" tilewidth="16" tileheight="16" tilecount="35" columns="7">
-  <image source="../../images/resources/house_roof.png" width="112" height="80"/>
+  <image source="house_roof.png" width="112" height="80"/>
  </tileset>
  <tileset firstgid="51" name="furniture" tilewidth="16" tileheight="16" tilecount="54" columns="9">
-  <image source="../../images/resources/furniture.png" width="144" height="96"/>
+  <image source="furniture.png" width="144" height="96"/>
  </tileset>
  <layer id="1" name="floor" width="20" height="20">
   <data encoding="csv">

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="60" height="30" tilewidth="16" tileheight="16" infinite="0" nextlayerid="10" nextobjectid="18">
  <tileset firstgid="1" name="grass_tiles" tilewidth="16" tileheight="16" tilecount="77" columns="11">
-  <image source="../../images/resources/grass_tiles.png" width="176" height="112"/>
+  <image source="grass_tiles.png" width="176" height="112"/>
  </tileset>
  <tileset firstgid="78" name="water" tilewidth="16" tileheight="16" tilecount="4" columns="4">
-  <image source="../../images/resources/water.png" width="64" height="16"/>
+  <image source="water.png" width="64" height="16"/>
   <tile id="0" type="water">
    <animation>
     <frame tileid="0" duration="200"/>
@@ -15,13 +15,13 @@
   </tile>
  </tileset>
  <tileset firstgid="82" name="house_walls" tilewidth="16" tileheight="16" tilecount="15" columns="5">
-  <image source="../../images/resources/house_walls.png" width="80" height="48"/>
+  <image source="house_walls.png" width="80" height="48"/>
  </tileset>
  <tileset firstgid="97" name="house_door" tilewidth="16" tileheight="16" tilecount="36" columns="18">
-  <image source="../../images/resources/house_door.png" width="288" height="32"/>
+  <image source="house_door.png" width="288" height="32"/>
  </tileset>
  <tileset firstgid="133" name="house_roof" tilewidth="16" tileheight="16" tilecount="35" columns="7">
-  <image source="../../images/resources/house_roof.png" width="112" height="80"/>
+  <image source="house_roof.png" width="112" height="80"/>
  </tileset>
  <layer id="2" name="water" width="60" height="30">
   <data encoding="csv">

@@ -77,8 +77,9 @@ class SproutValley extends FlameGame
 
   renderHouse()async{
     houseTiled = await TiledComponent.load(
-        'house/house.tmx',
+        'house.tmx',
         Vector2.all(WORLD_TILE_SIZE),
+        prefix: 'assets/tiles/house/',
         images: Images(prefix: 'assets/images/resources/'),
         priority: RenderPriority.ground
     );
@@ -99,8 +100,9 @@ class SproutValley extends FlameGame
 
   renderFarm()async{
     farmTiled = await TiledComponent.load(
-        'farm/farm.tmx',
+        'farm.tmx',
         Vector2.all(WORLD_TILE_SIZE),
+        prefix: 'assets/tiles/farm/',
         images: Images(prefix: 'assets/images/resources/'),
         priority: RenderPriority.ground
     );
@@ -124,7 +126,7 @@ class SproutValley extends FlameGame
         tileMap: farmTiled.tileMap,
         processorByType: <String, TileProcessorFunc>{
           'water' : ((tile, position, size) async {
-            return animationCompiler.addTile(position, tile, useRelativePath: true);
+            return animationCompiler.addTile(position, tile);
           })
         },
         layersToLoad: ['water']);
