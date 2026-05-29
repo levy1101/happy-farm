@@ -31,6 +31,10 @@ class SproutValley extends FlameGame
   String? nextRoute;
   String? prevRoute;
 
+  int activeToolIndex = 0;
+  bool wateringCanHasWater = false;
+  final List<Vector2> waterPositions = [];
+
   final _keyboardController = StreamController<KeyEvent>.broadcast();
   Stream<KeyEvent> get keyboardEventStream => _keyboardController.stream;
 
@@ -122,10 +126,12 @@ class SproutValley extends FlameGame
     farmMap.priority = RenderPriority.ground;
 
     final animationCompiler = AnimationBatchCompiler();
+    waterPositions.clear();
     await TileProcessor.processTileType(
         tileMap: farmTiled.tileMap,
         processorByType: <String, TileProcessorFunc>{
           'water' : ((tile, position, size) async {
+            waterPositions.add(position.clone());
             return animationCompiler.addTile(position, tile);
           })
         },
@@ -139,6 +145,20 @@ class SproutValley extends FlameGame
   switchScene(String toRoute){
     nextRoute = toRoute;
     router.pushReplacementNamed(toRoute);
+  }
+
+  bool isNearWater(Vector2 playerPosition) {
+    if (nextRoute == 'house' || (router.currentRoute?.name == 'house')) return false;
+    for (final waterPos in waterPositions) {
+      final scaledWaterPos = waterPos * WORLD_SCALE;
+      final waterCenter = scaledWaterPos + Vector2.all(WORLD_TILE_SIZE / 2);
+      final playerCenter = playerPosition + Vector2.all(48 * WORLD_SCALE / 2);
+      final distance = playerCenter.distanceTo(waterCenter);
+      if (distance < 96.0) {
+        return true;
+      }
+    }
+    return false;
   }
 
   @override

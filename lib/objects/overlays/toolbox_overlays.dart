@@ -25,7 +25,8 @@ class _ToolboxOverlaysState extends State<ToolboxOverlays> {
   var panelHeight = 310.0;
   var panelWidth = 36.0;
 
-  int selectIndex = 0;
+  int get selectIndex => game.activeToolIndex;
+  set selectIndex(int value) => game.activeToolIndex = value;
 
   late StreamSubscription<KeyEvent> _keyboardSub;
   
@@ -121,10 +122,15 @@ class _ToolboxOverlaysState extends State<ToolboxOverlays> {
                     child: SizedBox(
                       width: 30.0,
                       height: 28.0,
-                      child: SpriteWidget(
-                        sprite: Sprite(
-                          game.images.fromCache('overlays/toolbox_selector_overlays.png'),
-                          srcSize: Vector2(30.0, 28.0),
+                      child: ColorFiltered(
+                        colorFilter: (selectIndex == 3 && game.wateringCanHasWater)
+                            ? const ColorFilter.mode(Colors.blueAccent, BlendMode.srcATop)
+                            : const ColorFilter.mode(Colors.transparent, BlendMode.dstOver),
+                        child: SpriteWidget(
+                          sprite: Sprite(
+                            game.images.fromCache('overlays/toolbox_selector_overlays.png'),
+                            srcSize: Vector2(30.0, 28.0),
+                          ),
                         ),
                       ),
                     ),

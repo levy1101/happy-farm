@@ -85,6 +85,8 @@ class PlayerSprite extends SpriteAnimationComponent
   void update(double dt) {
     _playerMove(dt);
     _handleChoppingTimer(dt);
+    _handleTilingTimer(dt);
+    _handleWateringTimer(dt);
     super.update(dt);
   }
 
@@ -219,10 +221,30 @@ class PlayerSprite extends SpriteAnimationComponent
       _keyWeight[LogicalKeyboardKey.keyS]! - _keyWeight[LogicalKeyboardKey.keyW]!;
 
   bool _handleActionButton(bool isDown, String key){
-    switch(key){
-      case "K":
-        _handleActionChopping(isDown);
-        break;
+    if (key == "K") {
+      switch(game.activeToolIndex){
+        case 1:
+          _handleActionTiling(isDown);
+          break;
+        case 2:
+          _handleActionChopping(isDown);
+          break;
+        case 3:
+          if (isDown) {
+            if (game.isNearWater(position)) {
+              game.wateringCanHasWater = true;
+              _handleActionWatering(true);
+            } else if (game.wateringCanHasWater) {
+              _handleActionWatering(true);
+              game.wateringCanHasWater = false;
+            }
+          } else {
+            _handleActionWatering(false);
+          }
+          break;
+        default:
+          break;
+      }
     }
 
     return true;
@@ -317,7 +339,7 @@ class PlayerSprite extends SpriteAnimationComponent
     }
   }
 
-  _wateringActionTiling(bool isDown){
+  _handleActionWatering(bool isDown){
     if(isDown && state != PlayerState.watering){
       state = PlayerState.watering;
       wateringTimer = wateringDuration;
@@ -341,7 +363,7 @@ class PlayerSprite extends SpriteAnimationComponent
 
     lastPosition.setFrom(position);
 
-    _handleChoppingAnimation();
+    _handleActionAnimations();
 
     if(_reasonPlayerStop()){
       return;
@@ -370,26 +392,65 @@ class PlayerSprite extends SpriteAnimationComponent
       return true;
     }
 
+    if(wateringTimer > 0){
+      return true;
+    }
+
     return false;
   }
 
-  _handleChoppingAnimation(){
-    if(state != PlayerState.chopping) return;
-    switch(direction){
-      case PlayerDirection.down:
-        animation = chopDownAnimation;
-        break;
-      case PlayerDirection.up:
-        animation = chopUpAnimation;
-        break;
-      case PlayerDirection.left:
-        animation = chopLeftAnimation;
-        break;
-      case PlayerDirection.right:
-        animation = chopRightAnimation;
-        break;
-      default:
-        break;
+  _handleActionAnimations(){
+    if(state == PlayerState.chopping){
+      switch(direction){
+        case PlayerDirection.down:
+          animation = chopDownAnimation;
+          break;
+        case PlayerDirection.up:
+          animation = chopUpAnimation;
+          break;
+        case PlayerDirection.left:
+          animation = chopLeftAnimation;
+          break;
+        case PlayerDirection.right:
+          animation = chopRightAnimation;
+          break;
+        default:
+          break;
+      }
+    } else if(state == PlayerState.tiling){
+      switch(direction){
+        case PlayerDirection.down:
+          animation = tilingDownAnimation;
+          break;
+        case PlayerDirection.up:
+          animation = tilingUpAnimation;
+          break;
+        case PlayerDirection.left:
+          animation = tilingLeftAnimation;
+          break;
+        case PlayerDirection.right:
+          animation = tilingRightAnimation;
+          break;
+        default:
+          break;
+      }
+    } else if(state == PlayerState.watering){
+      switch(direction){
+        case PlayerDirection.down:
+          animation = wateringDownAnimation;
+          break;
+        case PlayerDirection.up:
+          animation = wateringUpAnimation;
+          break;
+        case PlayerDirection.left:
+          animation = wateringLeftAnimation;
+          break;
+        case PlayerDirection.right:
+          animation = wateringRightAnimation;
+          break;
+        default:
+          break;
+      }
     }
   }
 
