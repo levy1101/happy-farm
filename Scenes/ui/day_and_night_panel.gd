@@ -8,8 +8,8 @@ extends Control
 @export var cheetah_speed:int = 200
 
 func _ready() -> void:
-	DayAndNightCycleManager.time_tick.connect(on_time_tick) #Receive minute tick signal and update panel
-	
+	DayAndNightCycleManager.time_tick.connect(on_time_tick)
+
 func on_time_tick(day:int,hour:int,minute:int) -> void:
 	day_label.text = "DAY "+str(day)
 	time_label.text = "%02d:%02d" % [hour,minute]

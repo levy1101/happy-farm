@@ -57,6 +57,10 @@ func get_cell_under_mouse() -> void:
 	
 func add_crop() -> void:
 	if distance < 60:
+		if cell_source_id == -1:
+			print("FAILED: Cannot plant here, soil is not tilled.")
+			return
+			
 		var global_cell_position = tilled_soil.to_global(local_cell_position)
 		if ToolManager.selected_tool == DataTypes.Tools.PlantCorn:
 			print("SUCCESS: Planting Corn at ", cell_position)

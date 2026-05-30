@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=4 uid="uid://dnt0rry0v5ntr"]
+[gd_scene load_steps=21 format=4 uid="uid://dnt0rry0v5ntr"]
 
 [ext_resource type="PackedScene" uid="uid://cjp8kttc2jfja" path="res://Scenes/components/MouseCursorComponent.tscn" id="1_sighl"]
 [ext_resource type="PackedScene" uid="uid://c0k032pac7vms" path="res://Scenes/components/save_level_data_component.tscn" id="1_yp13v"]
@@ -17,6 +17,7 @@
 [ext_resource type="PackedScene" uid="uid://c5j1txmghosij" path="res://Scenes/objects/plants/tomato_harvest.tscn" id="17_s05t8"]
 [ext_resource type="PackedScene" uid="uid://bvuvjk0dvc41u" path="res://Scenes/characters/guide/guide.tscn" id="18_gmu6d"]
 [ext_resource type="PackedScene" uid="uid://cqie0vs3dmpm6" path="res://Scenes/objects/chest/chest.tscn" id="19_mr080"]
+[ext_resource type="PackedScene" uid="uid://bed_interactable_uid" path="res://Scenes/objects/bed_interactable.tscn" id="21_bed"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_jxko8"]
 vertices = PackedVector2Array(299, 309, 390.758, 309, 300.828, 337.203, 242.117, 345.203, 219.93, 309, 245, 309, 406.523, 69, 459, 69, 459, 117, 459, 182, 491, 117, 491, 131.539, 481.938, 182, 459, 278, 299, 278, 255.602, 80.1328, 245, 278, 213, 278, 213, 69, 224.977, 69, 485.07, 86, 485, 86, 485, 85.8906)
@@ -173,3 +174,6 @@ dialogue_start_command = "start_cow_box"
 output_reward_scenes = Array[PackedScene]([ExtResource("14_ju8s3")])
 
 [node name="OnTheFarmMusic" parent="." instance=ExtResource("15_dmoo4")]
+
+[node name="BedInteractable" parent="." instance=ExtResource("21_bed")]
+position = Vector2(8, 160)

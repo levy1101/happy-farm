@@ -20,7 +20,8 @@ extends CanvasModulate
 		DayAndNightCycleManager.initial_minute = im
 		DayAndNightCycleManager.set_initial_time()
 
-@export var day_night_gradient_texture: GradientTexture1D #Custom gradient color variable to control screen tint/filter
+const COLOR_NORMAL = Color(1.0, 1.0, 1.0, 1.0)    # Màu bình thường ban ngày
+const COLOR_19H = Color(0.45, 0.38, 0.55, 1.0)       # Màu hoàng hôn/chạng vạng lúc 19h
 
 func _ready() -> void:#Define initial values in the time system via this node's inspector
 	DayAndNightCycleManager.initial_day = initial_day
@@ -31,4 +32,5 @@ func _ready() -> void:#Define initial values in the time system via this node's 
 
 func on_game_time(time: float) -> void:
 	var sample_value = 0.5 * (sin(time - PI * 0.5) + 1.0) #Align screen tint with the current time
-	color = day_night_gradient_texture.gradient.sample(sample_value) #And change the color of the bound node
+	# Nội suy tuyến tính mượt mà trực tiếp giữa 2 màu
+	color = COLOR_19H.lerp(COLOR_NORMAL, sample_value)

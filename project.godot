@@ -33,6 +33,7 @@ DialogueManager="*uid://bs3hle8kqgt5s"
 GameDialogueManager="*res://Scripts/globals/game_dialogue_manager.gd"
 GameManager="*res://Scripts/globals/game_manager.gd"
 SceneManager="*res://Scripts/globals/scene_manager.gd"
+FocusManager="*res://Scripts/globals/focus_manager.gd"
 
 [display]
 
