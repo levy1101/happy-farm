@@ -21,17 +21,39 @@ Tất cả hoạt ảnh nhân vật nằm tập trung trong 2 tệp ảnh lớn 
 ### A. Tệp di chuyển: `Basic_Charakter_Spritesheet.png`
 *   **Kích thước ô đơn**: 48x48 px
 *   **Quy cách**: 4 cột (4 Khung hình nằm ngang) x 8 dòng (Tổng kích thước: **192x384 px**).
-*   **Thứ tự các dòng (Từ trên xuống dưới, Dòng 0 đến Dòng 7)**:
-    *   `Dòng 0` (Dòng 1): Đứng im - Hướng xuống (Idle Down) [4 frames]
-    *   `Dòng 1` (Dòng 2): Đứng im - Hướng lên (Idle Up) [4 frames]
-    *   `Dòng 2` (Dòng 3): Đứng im - Quay trái (Idle Left) [4 frames]
-    *   `Dòng 3` (Dòng 4): Đứng im - Quay phải (Idle Right) [4 frames]
-    *   `Dòng 4` (Dòng 5): Chạy/Đi bộ - Hướng xuống (Walk Down) [4 frames]
-    *   `Dòng 5` (Dòng 6): Chạy/Đi bộ - Hướng lên (Walk Up) [4 frames]
-    *   `Dòng 6` (Dòng 7): Chạy/Đi bộ - Quay trái (Walk Left) [4 frames]
-    *   `Dòng 7` (Dòng 8): Chạy/Đi bộ - Quay phải (Walk Right) [4 frames]
+*   **Phân tích Chi tiết Lưới Khung Hình (Từ Trái sang Phải, Trên xuống Dưới)**:
 
-### B. Tệp hành động: `Basic_Charakter_Actions.png`
+    #### 🔴 DÒNG 0 (Y: 0px đến 47px) - HƯỚNG XUỐNG (DOWN)
+    *   **Cột 0** (X: 0 - 47 px): **Đứng im 1 (Idle Down 1)** - Tư thế đứng thẳng nhìn về phía trước.
+    *   **Cột 1** (X: 48 - 95 px): **Đứng im 2 (Idle Down 2)** - Tư thế thở nhẹ hoặc cử động nháy mắt/tóc.
+    *   **Cột 2** (X: 96 - 143 px): **Bước đi 1 (Walk Down 1)** - Chân trái bước lên trước, tay phải vung.
+    *   **Cột 3** (X: 144 - 191 px): **Bước đi 2 (Walk Down 2)** - Chân phải bước lên trước, tay trái vung.
+
+    #### 🟢 DÒNG 1 (Y: 48px đến 95px) - HƯỚNG LÊN (UP)
+    *   **Cột 0** (X: 0 - 47 px): **Đứng im 1 (Idle Up 1)** - Tư thế đứng thẳng quay lưng lại.
+    *   **Cột 1** (X: 48 - 95 px): **Đứng im 2 (Idle Up 2)** - Tư thế thở nhẹ quay lưng lại.
+    *   **Cột 2** (X: 96 - 143 px): **Bước đi 1 (Walk Up 1)** - Chân trái bước lên trước quay lưng lại.
+    *   **Cột 3** (X: 144 - 191 px): **Bước đi 2 (Walk Up 2)** - Chân phải bước lên trước quay lưng lại.
+
+    #### 🔵 DÒNG 2 (Y: 96px đến 143px) - QUAY TRÁI (LEFT)
+    *   **Cột 0** (X: 0 - 47 px): **Đứng im 1 (Idle Left 1)** - Đứng yên nhìn nghiêng bên trái.
+    *   **Cột 1** (X: 48 - 95 px): **Đứng im 2 (Idle Left 2)** - Thở nhẹ nhìn nghiêng bên trái.
+    *   **Cột 2** (X: 96 - 143 px): **Bước đi 1 (Walk Left 1)** - Chân trái bước lên hướng bên trái.
+    *   **Cột 3** (X: 144 - 191 px): **Bước đi 2 (Walk Left 2)** - Chân phải bước lên hướng bên trái.
+
+    #### 🟡 DÒNG 3 (Y: 144px đến 191px) - QUAY PHẢI (RIGHT)
+    *   **Cột 0** (X: 0 - 47 px): **Đứng im 1 (Idle Right 1)** - Đứng yên nhìn nghiêng bên phải.
+    *   **Cột 1** (X: 48 - 95 px): **Đứng im 2 (Idle Right 2)** - Thở nhẹ nhìn nghiêng bên phải.
+    *   **Cột 2** (X: 96 - 143 px): **Bước đi 1 (Walk Right 1)** - Chân trái bước lên hướng bên phải.
+    *   **Cột 3** (X: 144 - 191 px): **Bước đi 2 (Walk Right 2)** - Chân phải bước lên hướng bên phải.
+
+    *(Lưu ý: Các dòng từ Dòng 4 đến Dòng 7 là phần lặp lại hoạt ảnh di chuyển vung tay vung chân ở cường độ chạy/đi nhanh hơn hoặc các biến thể chuyển động khác)*
+
+*   **⚠️ Lưu ý quan trọng khi vẽ (Dành cho AI/Họa sĩ)**:
+    1. **Đặt nhân vật ở tâm ô (Centering)**: Luôn đặt tọa độ tâm chân nhân vật ở chính giữa ô 48x48 px để hoạt ảnh di chuyển mượt mà, không bị giật hoặc trượt chân (jitter) trong game.
+    2. **Đồng bộ bóng đổ (Shadow)**: Thêm bóng đổ tròn mờ nhẹ ở phần chân nhân vật đồng bộ trên tất cả các khung hình.
+    3. **Không làm mượt nét (Pixel Perfect)**: Giữ nguyên nét Pixel Art sắc nét (Clean outline), xuất ảnh PNG nền trong suốt 100%.
+
 *   **Kích thước ô đơn**: 48x48 px
 *   **Quy cách**: 2 cột (2 Khung hình nằm ngang) x 24 dòng (Tổng kích thước: **96x1152 px**).
 *   **Thứ tự các dòng hành động cốt lõi**:
