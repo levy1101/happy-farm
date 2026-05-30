@@ -58,43 +58,27 @@ Tất cả hoạt ảnh nhân vật nằm tập trung trong 2 tệp ảnh lớn 
 *   **Kích thước ô đơn**: 48x48 px
 *   **Quy cách**: 2 cột (2 Khung hình nằm ngang - Cột 0 và Cột 1) x 24 dòng (Tổng kích thước: **96x1152 px**).
 *   **Phân tích Chi tiết Lưới Hành Động (Từ Trái sang Phải, Trên xuống Dưới)**:
-    *(Mỗi hướng hành động gồm 2 khung hình chuyển động liên tiếp: Cột 0 = Khung chuẩn bị/giơ dụng cụ, Cột 1 = Khung vung xuống tương tác)*
+    *(Mỗi hướng hành động gồm 2 khung hình chuyển động liên tiếp: Cột 0 = Khung chuẩn bị/giơ dụng cụ, Cột 1 = Khung vung xuống tương tác thực tế)*
 
-    #### 🪓 HÀNH ĐỘNG CHẶT GỖ (CHOPPING AXE) - [Dòng 0 - 3]
-    *   **Dòng 0** (Y: 0 - 47 px): Chặt gỗ Hướng xuống (Chop Down) [Cột 0, Cột 1]
-    *   **Dòng 1** (Y: 48 - 95 px): Chặt gỗ Hướng lên (Chop Up) [Cột 0, Cột 1]
-    *   **Dòng 2** (Y: 96 - 143 px): Chặt gỗ Quay trái (Chop Left) [Cột 0, Cột 1]
-    *   **Dòng 3** (Y: 144 - 191 px): Chặt gỗ Quay phải (Chop Right) [Cột 0, Cột 1]
+    #### 🚜 1. HÀNH ĐỘNG CUỐC ĐẤT (TILLING) - [Dòng 0 - 3]
+    *   **Dòng 0** (Y: 0 - 47 px): Cuốc đất Hướng xuống (Tilling Front) [Cột 0, Cột 1]
+    *   **Dòng 1** (Y: 48 - 95 px): Cuốc đất Hướng lên (Tilling Back) [Cột 0, Cột 1]
+    *   **Dòng 2** (Y: 96 - 143 px): Cuốc đất Quay trái (Tilling Left) [Cột 0, Cột 1]
+    *   **Dòng 3** (Y: 144 - 191 px): Cuốc đất Quay phải (Tilling Right) [Cột 0, Cột 1]
 
-    #### 🚜 HÀNH ĐỘNG CUỐC ĐẤT (HOEING) - [Dòng 4 - 7]
-    *   **Dòng 4** (Y: 192 - 239 px): Cuốc đất Hướng xuống (Hoe Down) [Cột 0, Cột 1]
-    *   **Dòng 5** (Y: 240 - 287 px): Cuốc đất Hướng lên (Hoe Up) [Cột 0, Cột 1]
-    *   **Dòng 6** (Y: 288 - 335 px): Cuốc đất Quay trái (Hoe Left) [Cột 0, Cột 1]
-    *   **Dòng 7** (Y: 336 - 383 px): Cuốc đất Quay phải (Hoe Right) [Cột 0, Cột 1]
+    #### 🪓 2. HÀNH ĐỘNG CHẶT GỖ (CHOPPING AXE) - [Dòng 4 - 7]
+    *   **Dòng 4** (Y: 192 - 239 px): Chặt gỗ Hướng xuống (Chopping Front) [Cột 0, Cột 1]
+    *   **Dòng 5** (Y: 240 - 287 px): Chặt gỗ Hướng lên (Chopping Back) [Cột 0, Cột 1]
+    *   **Dòng 6** (Y: 288 - 335 px): Chặt gỗ Quay trái (Chopping Left) [Cột 0, Cột 1]
+    *   **Dòng 7** (Y: 336 - 383 px): Chặt gỗ Quay phải (Chopping Right) [Cột 0, Cột 1]
 
-    #### 💧 HÀNH ĐỘNG TƯỚI NƯỚC (WATERING CAN) - [Dòng 8 - 11]
-    *   **Dòng 8** (Y: 384 - 431 px): Tưới nước Hướng xuống (Water Down) [Cột 0, Cột 1]
-    *   **Dòng 9** (Y: 432 - 479 px): Tưới nước Hướng lên (Water Up) [Cột 0, Cột 1]
-    *   **Dòng 10** (Y: 480 - 527 px): Tưới nước Quay trái (Water Left) [Cột 0, Cột 1]
-    *   **Dòng 11** (Y: 528 - 575 px): Tưới nước Quay phải (Water Right) [Cột 0, Cột 1]
+    #### 💧 3. HÀNH ĐỘNG TƯỚI NƯỚC (WATERING CAN) - [Dòng 8 - 11]
+    *   **Dòng 8** (Y: 384 - 431 px): Tưới nước Hướng xuống (Watering Front) [Cột 0, Cột 1]
+    *   **Dòng 9** (Y: 432 - 479 px): Tưới nước Hướng lên (Watering Back) [Cột 0, Cột 1]
+    *   **Dòng 10** (Y: 480 - 527 px): Tưới nước Quay trái (Watering Left) [Cột 0, Cột 1]
+    *   **Dòng 11** (Y: 528 - 575 px): Tưới nước Quay phải (Watering Right) [Cột 0, Cột 1]
 
-    #### 🔨 HÀNH ĐỘNG ĐẬP BÚA KHAI THÁC (HAMMERING) - [Dòng 12 - 15]
-    *   **Dòng 12** (Y: 576 - 623 px): Đập đá Hướng xuống (Hammer Down) [Cột 0, Cột 1]
-    *   **Dòng 13** (Y: 624 - 671 px): Đập đá Hướng lên (Hammer Up) [Cột 0, Cột 1]
-    *   **Dòng 14** (Y: 672 - 719 px): Đập đá Quay trái (Hammer Left) [Cột 0, Cột 1]
-    *   **Dòng 15** (Y: 720 - 767 px): Đập đá Quay phải (Hammer Right) [Cột 0, Cột 1]
-
-    #### 🌾 HÀNH ĐỘNG CUỐC NÔNG NGHIỆP NÂNG CAO - [Dòng 16 - 19]
-    *   **Dòng 16** (Y: 768 - 815 px): Cuốc nâng cao Hướng xuống [Cột 0, Cột 1]
-    *   **Dòng 17** (Y: 816 - 863 px): Cuốc nâng cao Hướng lên [Cột 0, Cột 1]
-    *   **Dòng 18** (Y: 864 - 911 px): Cuốc nâng cao Quay trái [Cột 0, Cột 1]
-    *   **Dòng 19** (Y: 912 - 959 px): Cuốc nâng cao Quay phải [Cột 0, Cột 1]
-
-    #### 🌱 HÀNH ĐỘNG GIEO HẠT GIỐNG (SOWING SEEDS) - [Dòng 20 - 23]
-    *   **Dòng 20** (Y: 960 - 1007 px): Gieo hạt Hướng xuống (Sow Down) [Cột 0, Cột 1]
-    *   **Dòng 21** (Y: 1008 - 1055 px): Gieo hạt Hướng lên (Sow Up) [Cột 0, Cột 1]
-    *   **Dòng 22** (Y: 1056 - 1103 px): Gieo hạt Quay trái (Sow Left) [Cột 0, Cột 1]
-    *   **Dòng 23** (Y: 1104 - 1151 px): Gieo hạt Quay phải (Sow Right) [Cột 0, Cột 1]
+    *(Lưu ý: Các dòng từ Y: 576px trở xuống chứa các hoạt ảnh hành động đập búa, cuốc nâng cao và gieo hạt gieo mầm khác của hệ thống cũ, hiện tại nhân vật chính đang sử dụng 12 dòng đầu tiên cho 3 công cụ cốt lõi này).*
 
 *   **⚠️ Lưu ý quan trọng khi vẽ**: 
     1. Giữ nguyên kích thước ô **48x48 px** cho từng hành động.
