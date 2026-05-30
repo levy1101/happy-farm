@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=42 format=3 uid="uid://bvahw72yoclgl"]
+[gd_resource type="Theme" format=3 uid="uid://bvahw72yoclgl"]
 
 [ext_resource type="Texture2D" uid="uid://dft16jbidapcc" path="res://Assets/UI/Sprite sheet for Basic Pack.png" id="1_ymnhu"]
 [ext_resource type="FontVariation" uid="uid://cj0n5belyjjik" path="res://Scenes/ui/zx_paml.tres" id="2_cs1fs"]

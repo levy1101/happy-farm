@@ -1,28 +1,28 @@
-[gd_scene load_steps=5 format=3 uid="uid://byt7c4thbd8qq"]
+[gd_scene format=3 uid="uid://byt7c4thbd8qq"]
 
 [ext_resource type="PackedScene" uid="uid://cft7ln6i63kir" path="res://Scenes/components/day_night_cycle_component.tscn" id="1_nunak"]
 [ext_resource type="PackedScene" uid="uid://dnt0rry0v5ntr" path="res://Scenes/levels/level_2.tscn" id="2_p3ske"]
 [ext_resource type="PackedScene" uid="uid://yqwteea6e2jt" path="res://Scenes/characters/player/player.tscn" id="3_ibqqm"]
 [ext_resource type="PackedScene" uid="uid://dytri7vg55tgo" path="res://Scenes/ui/game_screen.tscn" id="4_4ntq2"]
 
-[node name="MainScene" type="Node"]
+[node name="MainScene" type="Node" unique_id=518369512]
 
-[node name="DayNightCycleComponent" parent="." instance=ExtResource("1_nunak")]
+[node name="DayNightCycleComponent" parent="." unique_id=1192872484 instance=ExtResource("1_nunak")]
 
-[node name="GameRoot" type="Node2D" parent="."]
+[node name="GameRoot" type="Node2D" parent="." unique_id=1844924913]
 y_sort_enabled = true
 
-[node name="LevelRoot" type="Node2D" parent="GameRoot"]
+[node name="LevelRoot" type="Node2D" parent="GameRoot" unique_id=695482498]
 y_sort_enabled = true
 
-[node name="Level2" parent="GameRoot/LevelRoot" instance=ExtResource("2_p3ske")]
+[node name="Level2" parent="GameRoot/LevelRoot" unique_id=940009517 instance=ExtResource("2_p3ske")]
 
-[node name="Player" parent="GameRoot" instance=ExtResource("3_ibqqm")]
+[node name="Player" parent="GameRoot" unique_id=1934782215 instance=ExtResource("3_ibqqm")]
 y_sort_enabled = true
 position = Vector2(112, 324)
 metadata/_edit_group_ = true
 
-[node name="Camera2D" type="Camera2D" parent="GameRoot/Player"]
+[node name="Camera2D" type="Camera2D" parent="GameRoot/Player" unique_id=1005351728]
 process_callback = 0
 limit_left = -290
 limit_top = 0
@@ -32,4 +32,4 @@ limit_smoothed = true
 position_smoothing_enabled = true
 position_smoothing_speed = 10.0
 
-[node name="GameScreen" parent="." instance=ExtResource("4_4ntq2")]
+[node name="GameScreen" parent="." unique_id=134055851 instance=ExtResource("4_4ntq2")]

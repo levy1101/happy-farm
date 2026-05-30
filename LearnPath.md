@@ -1,56 +1,53 @@
-# Godot学习路线
+# Godot Learning Path
 
-## 1.介绍
+## 1. Introduction
 
-Godot是一款开源且功能强大的游戏引擎，2D游戏的不错选择，本次推荐学习路线从Godot4开始。
+Godot is an open-source and powerful game engine, especially good for 2D games. This learning path starts with Godot 4.
 
-官网：[Godot Engine - Free and open source 2D and 3D game engine](https://godotengine.org/)
+Official site: [Godot Engine - Free and open source 2D and 3D game engine](https://godotengine.org/)
 
-官方文档：[Godot 文档 – master 分支 — Godot Engine (4.x) 简体中文文档](https://docs.godotengine.org/zh-cn/4.x/)
+Official docs: [Godot Engine documentation](https://docs.godotengine.org/en/4.x/)
 
-## 2.GDScript
+## 2. GDScript
 
-GDScript是Godot原生支持的脚本语言，语法跟Python相似，如果你学过Python那么可以跳过这里，
+GDScript is Godot's native scripting language. Its syntax is similar to Python, so you can skip this section if you already know Python.
 
-[Learn to Code From Zero with Godot (DEBUG) (gdquest.github.io)](https://gdquest.github.io/learn-gdscript/) 这是一个以游戏形式学习gdscript基础入门的网站，对于小白很友好
+[Learn to Code From Zero with Godot](https://gdquest.github.io/learn-gdscript/) is a great game-like introduction to GDScript for beginners.
 
-学了这里可以直接开始下一步，当你在后面的学习中遇到没见过的语法时，不要慌张，跟着学
+After this section, you can move on to the next step. If you run into syntax you have not seen before later on, do not panic and just follow along.
 
-## 3.第一个小游戏
+## 3. First Mini Game
 
-[【中文语音】跟着Brackeys学习，如何用Godot制作你的第一款游戏](https://www.bilibili.com/video/BV1fs421N7TD?vd_source=a49e175e84c42d23d87a620add615b1d)
+[Learn how to make your first game with Godot](https://www.bilibili.com/video/BV1fs421N7TD?vd_source=a49e175e84c42d23d87a620add615b1d)
 
-这个b站up会把外语视频用AI配音成中文，原视频作者Brackeys也是个不错的大佬，如果条件支持，可以直接去youtube观看[原视频](https://youtu.be/LOhfqjmasi0?si=4RguI6-pXHZ2mk9K)
+This creator dubs foreign videos into Chinese with AI. The original author, Brackeys, is also excellent. If you can, watch the [original video](https://youtu.be/LOhfqjmasi0?si=4RguI6-pXHZ2mk9K) on YouTube.
 
-在这一节你可以学到什么：你将入门godot，学会一些基础节点，使用character创建玩家，使用tilemap创建世界地图，以及UI的部分使用，还有简单的代码编写
+What you can learn here: how to get started with Godot, basic nodes, creating a player with `Character`, building a world map with `TileMap`, using UI, and writing simple code.
 
-## 4.深入学习
+## 4. Deeper Study
 
-[【中文语音】Godot4终极入门教程01：什么是Godot](https://www.bilibili.com/video/BV1pu4y1b7p6?vd_source=a49e175e84c42d23d87a620add615b1d)
+[Godot 4 Ultimate Beginner Tutorial 01: What is Godot](https://www.bilibili.com/video/BV1pu4y1b7p6?vd_source=a49e175e84c42d23d87a620add615b1d)
 
-还是那个up主，很值得推荐，原视频：
+This is the same creator again, and the series is well worth recommending. Original video:
 
-这一节你可以学到什么：这个教程将带你学习更多节点，几乎所有2D游戏开发的节点都有讲到，但是不是构建一个完整的游戏
+What you can learn here: more nodes and most of the common nodes used in 2D game development, though not how to build a complete game.
 
-## 5.强化学习
+## 5. Advanced Practice
 
-类星露谷：[Godot-2D 农场游戏"Crop Tails"制作教程[中文]](https://www.bilibili.com/video/BV159mCYkEV3?vd_source=a49e175e84c42d23d87a620add615b1d)
+Stardew-like: [Godot 2D farming game "Crop Tails" tutorial](https://www.bilibili.com/video/BV159mCYkEV3?vd_source=a49e175e84c42d23d87a620add615b1d)
 
-这是一个十分不错的教程，从Godot4.3开始使用TilemapLayer，作者讲的非常好，这将带你创建一个几乎完整的萌芽岛种田游戏
+This is a very solid tutorial. It starts with Godot 4.3 and uses TileMapLayer. The author explains things very clearly, and it will guide you through building a nearly complete farming game.
 
-这一节你将学到什么：
+What you can learn in this section:
 
-1. 使用状态机代码管理状态
-2. 种植系统
-3. npc对话系统
-4. 库存系统（背包系统青春版）
-5. 时间系统
-6. 游戏存档
-7. 部分的shader
+1. Managing state with a state machine
+2. Planting systems
+3. NPC dialogue systems
+4. Inventory systems
+5. Time systems
+6. Game saving
+7. Some shader work
 
-## 6.其他需要学习的知识
+## 6. Other Things to Learn
 
-接下来就是学习shader，和一些教程杂集
-
-
-
+Next, keep learning shaders and a variety of smaller tutorial topics.

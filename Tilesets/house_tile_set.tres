@@ -1,12 +1,10 @@
-[gd_resource type="TileSet" load_steps=9 format=3 uid="uid://dv38mriqps28b"]
+[gd_resource type="TileSet" format=3 uid="uid://dv38mriqps28b"]
 
-[ext_resource type="Texture2D" uid="uid://dfsbwgcy56dta" path="res://Assets/game/Tilesets/Wooden_House.png" id="1_fsgnu"]
 [ext_resource type="Texture2D" uid="uid://bspbd4y3jle1a" path="res://Assets/game/Tilesets/Wooden_House_Walls_Tilset.png" id="2_qoi14"]
 [ext_resource type="Texture2D" uid="uid://xa3yfbqqfh8g" path="res://Assets/game/Objects/Basic_Furniture.png" id="3_oltrc"]
 [ext_resource type="PackedScene" uid="uid://cf5vp2c0yntex" path="res://Scenes/houses/door.tscn" id="4_bc3aj"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_wqkkg"]
-texture = ExtResource("1_fsgnu")
 1:2/0 = 0
 1:1/0 = 0
 0:1/0 = 0
