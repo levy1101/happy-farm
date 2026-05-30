@@ -54,15 +54,51 @@ Tất cả hoạt ảnh nhân vật nằm tập trung trong 2 tệp ảnh lớn 
     2. **Đồng bộ bóng đổ (Shadow)**: Thêm bóng đổ tròn mờ nhẹ ở phần chân nhân vật đồng bộ trên tất cả các khung hình.
     3. **Không làm mượt nét (Pixel Perfect)**: Giữ nguyên nét Pixel Art sắc nét (Clean outline), xuất ảnh PNG nền trong suốt 100%.
 
+### B. Tệp hành động: `Basic_Charakter_Actions.png`
 *   **Kích thước ô đơn**: 48x48 px
-*   **Quy cách**: 2 cột (2 Khung hình nằm ngang) x 24 dòng (Tổng kích thước: **96x1152 px**).
-*   **Thứ tự các dòng hành động cốt lõi**:
-    *   `Dòng 0 - 3`: Vung Rìu chặt gỗ (Chop) [Hướng Xuống, Lên, Trái, Phải - mỗi hướng 2 frames]
-    *   `Dòng 4 - 7`: Vung Cuốc cuốc đất (Hoe) [Hướng Xuống, Lên, Trái, Phải - mỗi hướng 2 frames]
-    *   `Dòng 8 - 11`: Tưới nước (Watering) [Hướng Xuống, Lên, Trái, Phải - mỗi hướng 2 frames]
-    *   `Dòng 12 - 15`: Cầm búa đập đá (Hammer) [Hướng Xuống, Lên, Trái, Phải - mỗi hướng 2 frames]
-    *   `Dòng 16 - 19`: Vung cuốc nông nghiệp nâng cao [Hướng Xuống, Lên, Trái, Phải]
-    *   `Dòng 20 - 23`: Hoạt ảnh gieo hạt giống (Sowing) [Hướng Xuống, Lên, Trái, Phải]
+*   **Quy cách**: 2 cột (2 Khung hình nằm ngang - Cột 0 và Cột 1) x 24 dòng (Tổng kích thước: **96x1152 px**).
+*   **Phân tích Chi tiết Lưới Hành Động (Từ Trái sang Phải, Trên xuống Dưới)**:
+    *(Mỗi hướng hành động gồm 2 khung hình chuyển động liên tiếp: Cột 0 = Khung chuẩn bị/giơ dụng cụ, Cột 1 = Khung vung xuống tương tác)*
+
+    #### 🪓 HÀNH ĐỘNG CHẶT GỖ (CHOPPING AXE) - [Dòng 0 - 3]
+    *   **Dòng 0** (Y: 0 - 47 px): Chặt gỗ Hướng xuống (Chop Down) [Cột 0, Cột 1]
+    *   **Dòng 1** (Y: 48 - 95 px): Chặt gỗ Hướng lên (Chop Up) [Cột 0, Cột 1]
+    *   **Dòng 2** (Y: 96 - 143 px): Chặt gỗ Quay trái (Chop Left) [Cột 0, Cột 1]
+    *   **Dòng 3** (Y: 144 - 191 px): Chặt gỗ Quay phải (Chop Right) [Cột 0, Cột 1]
+
+    #### 🚜 HÀNH ĐỘNG CUỐC ĐẤT (HOEING) - [Dòng 4 - 7]
+    *   **Dòng 4** (Y: 192 - 239 px): Cuốc đất Hướng xuống (Hoe Down) [Cột 0, Cột 1]
+    *   **Dòng 5** (Y: 240 - 287 px): Cuốc đất Hướng lên (Hoe Up) [Cột 0, Cột 1]
+    *   **Dòng 6** (Y: 288 - 335 px): Cuốc đất Quay trái (Hoe Left) [Cột 0, Cột 1]
+    *   **Dòng 7** (Y: 336 - 383 px): Cuốc đất Quay phải (Hoe Right) [Cột 0, Cột 1]
+
+    #### 💧 HÀNH ĐỘNG TƯỚI NƯỚC (WATERING CAN) - [Dòng 8 - 11]
+    *   **Dòng 8** (Y: 384 - 431 px): Tưới nước Hướng xuống (Water Down) [Cột 0, Cột 1]
+    *   **Dòng 9** (Y: 432 - 479 px): Tưới nước Hướng lên (Water Up) [Cột 0, Cột 1]
+    *   **Dòng 10** (Y: 480 - 527 px): Tưới nước Quay trái (Water Left) [Cột 0, Cột 1]
+    *   **Dòng 11** (Y: 528 - 575 px): Tưới nước Quay phải (Water Right) [Cột 0, Cột 1]
+
+    #### 🔨 HÀNH ĐỘNG ĐẬP BÚA KHAI THÁC (HAMMERING) - [Dòng 12 - 15]
+    *   **Dòng 12** (Y: 576 - 623 px): Đập đá Hướng xuống (Hammer Down) [Cột 0, Cột 1]
+    *   **Dòng 13** (Y: 624 - 671 px): Đập đá Hướng lên (Hammer Up) [Cột 0, Cột 1]
+    *   **Dòng 14** (Y: 672 - 719 px): Đập đá Quay trái (Hammer Left) [Cột 0, Cột 1]
+    *   **Dòng 15** (Y: 720 - 767 px): Đập đá Quay phải (Hammer Right) [Cột 0, Cột 1]
+
+    #### 🌾 HÀNH ĐỘNG CUỐC NÔNG NGHIỆP NÂNG CAO - [Dòng 16 - 19]
+    *   **Dòng 16** (Y: 768 - 815 px): Cuốc nâng cao Hướng xuống [Cột 0, Cột 1]
+    *   **Dòng 17** (Y: 816 - 863 px): Cuốc nâng cao Hướng lên [Cột 0, Cột 1]
+    *   **Dòng 18** (Y: 864 - 911 px): Cuốc nâng cao Quay trái [Cột 0, Cột 1]
+    *   **Dòng 19** (Y: 912 - 959 px): Cuốc nâng cao Quay phải [Cột 0, Cột 1]
+
+    #### 🌱 HÀNH ĐỘNG GIEO HẠT GIỐNG (SOWING SEEDS) - [Dòng 20 - 23]
+    *   **Dòng 20** (Y: 960 - 1007 px): Gieo hạt Hướng xuống (Sow Down) [Cột 0, Cột 1]
+    *   **Dòng 21** (Y: 1008 - 1055 px): Gieo hạt Hướng lên (Sow Up) [Cột 0, Cột 1]
+    *   **Dòng 22** (Y: 1056 - 1103 px): Gieo hạt Quay trái (Sow Left) [Cột 0, Cột 1]
+    *   **Dòng 23** (Y: 1104 - 1151 px): Gieo hạt Quay phải (Sow Right) [Cột 0, Cột 1]
+
+*   **⚠️ Lưu ý quan trọng khi vẽ**: 
+    1. Giữ nguyên kích thước ô **48x48 px** cho từng hành động.
+    2. Điểm chân đứng của nhân vật giữa tệp Di Chuyển (`Basic_Charakter_Spritesheet.png`) và tệp Hành Động (`Basic_Charakter_Actions.png`) phải **trùng khớp vị trí tuyệt đối** để khi chuyển từ đi bộ sang chặt/cuốc/gieo hạt không bị giật vị trí.
 
 ### C. Động vật: `Free_Chicken_Sprites.png` & `Free_Cow_Sprites.png`
 *   **Gà (`Free_Chicken_Sprites.png`)**: Kích thước ô đơn 16x16 px. Hoạt ảnh gà đi bộ, mổ thóc nằm trên các dòng ngang.
