@@ -1,10 +1,10 @@
 shader_type canvas_item;
 
-uniform float shake_intensity = 0.0;//震动强度
-uniform float shake_speed = 20.0;//震动速度
+uniform float shake_intensity = 0.0;//Shake intensity
+uniform float shake_speed = 20.0;//Shake speed
 
 void vertex() {
-	vec2 shake = vec2(0.0); //定义shake矢量
+	vec2 shake = vec2(0.0); // shake
 	if(VERTEX.y < 0.0){
 		shake.x = sin(TIME * shake_speed + VERTEX.y) * shake_intensity;
 	}

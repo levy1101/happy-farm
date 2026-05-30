@@ -7,7 +7,7 @@ func _save_data(node: Node2D) -> void:
 	super._save_data(node)
 	
 	
-	for tool_button:Button in node.get_children(): #记录这些按钮的状态
+	for tool_button:Button in node.get_children():
 		isDisable = tool_button.disabled
 		a = tool_button.focus_mode
 

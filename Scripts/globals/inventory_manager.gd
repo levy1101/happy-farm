@@ -1,13 +1,13 @@
 extends Node
 
-var inventory : Dictionary = Dictionary() #这里是构造函数，仅仅是更直观表示类型，{}初始化也是一样的
+var inventory : Dictionary = Dictionary() # ，，{}
 
 signal inventory_changed
 
 func add_collectable(collectable_name : String) -> void:
-	inventory.get_or_add(collectable_name) #将物品添加到字典里，如果key不存在会创建新的
+	inventory.get_or_add(collectable_name) # ，key
 	
-	#更新字典key的值
+	# key
 	if inventory[collectable_name] == null:
 		inventory[collectable_name] = 1
 	else:
@@ -16,9 +16,9 @@ func add_collectable(collectable_name : String) -> void:
 	inventory_changed.emit()
 
 func remove_collectable(collectable_name : String) -> void:
-	inventory.get_or_add(collectable_name) #将物品添加到字典里，如果key不存在会创建新的
+	inventory.get_or_add(collectable_name) # ，key
 	
-	#更新字典key的值
+	# key
 	if inventory[collectable_name] == null:
 		inventory[collectable_name] = 0
 	else:

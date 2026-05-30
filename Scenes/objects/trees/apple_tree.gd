@@ -3,7 +3,7 @@ extends SmallTree
 @export var apple = preload("res://Scenes/objects/trees/apple.tscn")
 
 func on_max_damaged_reached() -> void:
-	call_deferred("add_apple_scene")#延迟调用
+	call_deferred("add_apple_scene")#Call deferred
 	super()
 
 func add_apple_scene() -> void:

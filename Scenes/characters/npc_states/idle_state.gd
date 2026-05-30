@@ -3,11 +3,11 @@ extends NodeState
 @export var character : NonPlayableCharacter
 @export var animated_sprite_2d: AnimatedSprite2D 
 @export var navigation_agent_2d : NavigationAgent2D
-@export var idle_state_time_interval :=5.0 #计时器的作用就是让鸡定时状态转换
+@export var idle_state_time_interval :=5.0
 
-@onready var idle_state_timer : Timer = Timer.new() #new一个Timer节点用于计时
+@onready var idle_state_timer : Timer = Timer.new() # newTimer
 
-var idle_state_timeout : bool = false #判断是否超时
+var idle_state_timeout : bool = false
 
 func _ready() -> void:
 	idle_state_timer.wait_time = idle_state_time_interval

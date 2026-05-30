@@ -8,14 +8,14 @@ extends PanelContainer
 
 func _ready() -> void:
 	ToolManager.enable_tool.connect(on_enable_tool)
-	tool_tilling.disabled = true
-	tool_tilling.focus_mode = Control.FOCUS_NONE #focus_mode的选项
-	tool_watering_can.disabled = true
-	tool_watering_can.focus_mode = Control.FOCUS_NONE
-	tool_corn.disabled = true
-	tool_corn.focus_mode = Control.FOCUS_NONE
-	tool_tomato.disabled = true
-	tool_tomato.focus_mode = Control.FOCUS_NONE
+	tool_tilling.disabled = false
+	tool_tilling.focus_mode = Control.FOCUS_ALL #Focus mode options
+	tool_watering_can.disabled = false
+	tool_watering_can.focus_mode = Control.FOCUS_ALL
+	tool_corn.disabled = false
+	tool_corn.focus_mode = Control.FOCUS_ALL
+	tool_tomato.disabled = false
+	tool_tomato.focus_mode = Control.FOCUS_ALL
 	
 
 func _on_tool_axe_pressed() -> void:

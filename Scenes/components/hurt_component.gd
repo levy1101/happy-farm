@@ -7,6 +7,6 @@ signal hurt
 
 
 func _on_area_entered(area: Area2D) -> void:
-	var hit_component = area as HitComponent #将传进来的区域转为HitComponent类型
+	var hit_component = area as HitComponent # HitComponent
 	if tool == hit_component.current_tool:
 		hurt.emit(hit_component.damage)	

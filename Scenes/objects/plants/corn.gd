@@ -1,10 +1,10 @@
 extends Node2D
 
-var corn_harvest_scene = preload("res://Scenes/objects/plants/corn_harvest.tscn") #成熟的场景
+var corn_harvest_scene = preload("res://Scenes/objects/plants/corn_harvest.tscn") #Mature crop scene
 
 @onready var sprite_2d: Sprite2D = $Sprite2D
-@onready var watering_particles: GPUParticles2D = $WateringParticles #浇水时粒子
-@onready var flowering_particles: GPUParticles2D = $FloweringParticles #开花时粒子
+@onready var watering_particles: GPUParticles2D = $WateringParticles #Watering particles
+@onready var flowering_particles: GPUParticles2D = $FloweringParticles #Flowering particles
 @onready var hurt_component: HurtComponent = $HurtComponent
 @onready var growth_cycle_component: GrowthCycleComponent = $GrowthCycleComponent
 
@@ -14,8 +14,8 @@ func _ready() -> void:
 	watering_particles.emitting = false
 	flowering_particles.emitting = false
 	
-	hurt_component.hurt.connect(on_hurt) #检测浇水
-	growth_cycle_component.crop_maturity.connect(on_crop_maturity) #成熟时转换场景
+	hurt_component.hurt.connect(on_hurt) #Detect watering
+	growth_cycle_component.crop_maturity.connect(on_crop_maturity) #Convert scene when mature
 	growth_cycle_component.crop_harvesting.connect(on_crop_harvesting)
 
 func _process(delta: float) -> void:
@@ -26,7 +26,7 @@ func _process(delta: float) -> void:
 		flowering_particles.emitting = true
 
 func on_hurt(damage:int)->void:
-	if !growth_cycle_component.is_waterd: #浇水作物时触发粒子效果
+	if !growth_cycle_component.is_waterd: #Trigger particle effect when watering crops
 		watering_particles.emitting = true
 		await get_tree().create_timer(5.0).timeout
 		watering_particles.emitting = false

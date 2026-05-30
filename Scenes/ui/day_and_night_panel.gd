@@ -8,7 +8,7 @@ extends Control
 @export var cheetah_speed:int = 200
 
 func _ready() -> void:
-	DayAndNightCycleManager.time_tick.connect(on_time_tick) #接收每分钟变化的信号，然后更新到面板
+	DayAndNightCycleManager.time_tick.connect(on_time_tick) #Receive minute tick signal and update panel
 	
 func on_time_tick(day:int,hour:int,minute:int) -> void:
 	day_label.text = "DAY "+str(day)

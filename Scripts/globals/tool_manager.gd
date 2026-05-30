@@ -1,11 +1,11 @@
 extends Node
 
-var selected_tool : DataTypes.Tools = DataTypes.Tools.None #选择的工具变量
+var selected_tool : DataTypes.Tools = DataTypes.Tools.None #Selected tool variable
 
-signal tool_selected(tool:DataTypes.Tools) #工具选择信号
+signal tool_selected(tool:DataTypes.Tools) #Tool selection signal
 signal enable_tool(tool:DataTypes.Tools)
 
-func select_tool(tool:DataTypes.Tools) -> void: #选择工具的函数，通过参数将工具传递
+func select_tool(tool:DataTypes.Tools) -> void: #选择工具的函数，Pass the tool as a parameter
 	tool_selected.emit(tool)
 	selected_tool = tool
 

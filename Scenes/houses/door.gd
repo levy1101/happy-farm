@@ -12,7 +12,7 @@ func _ready() -> void:
 	
 func _on_interactable_activated():
 	animated_sprite_2d.play("open_door")
-	collision_layer = 2 #因为door在1层，player在2层，可以与1层碰撞，所以改变door的层级（除了1层都可以），player则不会与其碰撞
+	collision_layer = 2 # door1，player2，1，door（1），player
 	
 func _on_interactable_deactivated():
 	animated_sprite_2d.play("close_door")

@@ -26,10 +26,10 @@ func _unhandled_input(event: InputEvent) -> void:
 		if event.is_action_pressed("show_dialogue"):
 			var bolloon_instance :BaseGameDialogueBalloon= balloon.instantiate()
 			get_tree().root.add_child(bolloon_instance)
-			bolloon_instance.start(load("res://dialogue/conversations/guide.dialogue"),"start")#加载对话脚本从start开始
+			bolloon_instance.start(load("res://dialogue/conversations/guide.dialogue"),"start")# start
 		
 func on_give_crop_seeds()->void:
-	ToolManager.enable_tool_button(DataTypes.Tools.TillGround)
-	ToolManager.enable_tool_button(DataTypes.Tools.WaterCrops)
-	ToolManager.enable_tool_button(DataTypes.Tools.PlantCorn)
-	ToolManager.enable_tool_button(DataTypes.Tools.PlantTomato)
+	var items = ["log", "stone", "corn", "tomato", "egg", "milk"]
+	for item in items:
+		InventoryManager.inventory[item] = 10
+	InventoryManager.inventory_changed.emit()

@@ -1,9 +1,9 @@
 class_name DayNightCycleComponent
 extends CanvasModulate
 
-#这些export变量，每当在外部检视器改变值时，都会将这个值的改变应用到时间系统那边
+#Export variables that sync with the time system when changed in inspector
 @export var initial_day: int = 1:
-	set(id): #通过set来控制当前值改变时对应的其他值
+	set(id): #Use setter to control other values when current value changes
 		initial_day = id
 		DayAndNightCycleManager.initial_day = id
 		DayAndNightCycleManager.set_initial_time()
@@ -20,9 +20,9 @@ extends CanvasModulate
 		DayAndNightCycleManager.initial_minute = im
 		DayAndNightCycleManager.set_initial_time()
 
-@export var day_night_gradient_texture: GradientTexture1D #自定义的渐变颜色变量，用来控制滤镜
+@export var day_night_gradient_texture: GradientTexture1D #Custom gradient color variable to control screen tint/filter
 
-func _ready() -> void:#通过这个节点的检视器，定义时间系统那边的初始值
+func _ready() -> void:#Define initial values in the time system via this node's inspector
 	DayAndNightCycleManager.initial_day = initial_day
 	DayAndNightCycleManager.initial_hour = initial_hour
 	DayAndNightCycleManager.initial_minute = initial_minute
@@ -30,5 +30,5 @@ func _ready() -> void:#通过这个节点的检视器，定义时间系统那边
 	DayAndNightCycleManager.game_time.connect(on_game_time)
 
 func on_game_time(time: float) -> void:
-	var sample_value = 0.5 * (sin(time - PI * 0.5) + 1.0) #让滤镜和time时间对应
-	color = day_night_gradient_texture.gradient.sample(sample_value) #并且改变当前脚本绑定节点的color值
+	var sample_value = 0.5 * (sin(time - PI * 0.5) + 1.0) #Align screen tint with the current time
+	color = day_night_gradient_texture.gradient.sample(sample_value) #And change the color of the bound node

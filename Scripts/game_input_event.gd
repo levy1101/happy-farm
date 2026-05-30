@@ -1,6 +1,6 @@
 class_name GameInputEvents
 
-static var direction : Vector2 #静态变量可以让调用者也使用同一款内存空间
+static var direction : Vector2 #Static variables share the same memory space
 
 static func movement_input() -> Vector2:
 	direction.y = Input.get_axis("walk_up","walk_down")
@@ -17,7 +17,7 @@ static func movement_input() -> Vector2:
 		#direction = Vector2.ZERO
 	return direction
 
-#判断是否移动
+#Check if moving
 static func is_movement_input() -> bool:
 	if direction == Vector2.ZERO:
 		return false

@@ -1,7 +1,7 @@
 class_name Rock extends Sprite2D
 
-@onready var hurt_component: HurtComponent = $HurtComponent #检测受伤的区域的组件
-@onready var damage_component: DamageComponent = $DamageComponent #实际掉血的组件
+@onready var hurt_component: HurtComponent = $HurtComponent #Component for detecting hurt areas
+@onready var damage_component: DamageComponent = $DamageComponent #Component for taking damage
 
 @export var stone = preload("res://Scenes/objects/rocks/stone.tscn")
 
@@ -12,11 +12,11 @@ func _ready() -> void:
 func on_hurt(damage:int) -> void:
 	damage_component.apply_damage(damage)
 	material.set_shader_parameter("shake_intensity",0.7)
-	await get_tree().create_timer(0.5).timeout #await 关键字会暂停代码执行，直到指定的信号触发（这里是 timeout 信号）
+	await get_tree().create_timer(0.5).timeout #await pauses execution until the specified signal (timeout) triggers
 	material.set_shader_parameter("shake_intensity",0.0)
 	
 func on_max_damaged_reached() -> void:
-	call_deferred("add_log_scene")#延迟调用
+	call_deferred("add_log_scene")#Call deferred
 	queue_free()
 	
 func add_log_scene() -> void:
