@@ -1,63 +1,72 @@
 extends CanvasLayer
 
 # ================================================================
-# FOCUS SCREEN — Premium Forest App full-screen experience
-# All UI built programmatically for gorgeous responsive scaling.
+# FOCUS SCREEN — Clean premium design matching the mockup exactly
 # ================================================================
 
 const DURATIONS: Array = [25, 45, 60]
 
 var _selected_duration: int = 25
 var _is_active: bool = false
-var _has_completed: bool = false
 
-# ──── UI References ────────────────────────────────────────────
+# ──── UI References ─────────────────────────────────────────────
 var _bg: ColorRect
 var _clone_avatar: AnimatedSprite2D
 var _content_root: Control
-
-var _avatar_panel: PanelContainer
-var _title_label: Label
-var _dur_hint: Label
-var _duration_row: HBoxContainer
-var _duration_buttons: Array = []
+var _avatar_panel: Control
 var _progress_ring: FocusProgressRing
 var _tree_sprite: Sprite2D
 var _countdown_label: Label
 var _status_label: Label
+var _duration_row: HBoxContainer
+var _duration_buttons: Array = []
 var _action_btn: Button
 var _close_btn: Button
 
-# ──── Custom Draw Progress Ring ─────────────────────────────────
+# Load Kenney Mini Square font for full styling consistency
+var custom_font: Font = preload("res://Assets/font/Kenney Mini Square.ttf")
+
+
+# ──── Progress Ring (neon glow, 3 layer arc) ────────────────────
 class FocusProgressRing extends Control:
 	var progress: float = 0.0 : set = _set_progress
 
-	func _set_progress(val: float) -> void:
-		progress = val
+	func _set_progress(v: float) -> void:
+		progress = v
 		queue_redraw()
 
 	func _draw() -> void:
-		var center = size / 2.0
-		var radius = min(size.x, size.y) / 2.0 - 4.0
-		# Draw elegant dark forest green background ring
-		draw_arc(center, radius, 0.0, TAU, 128, Color(0.06, 0.16, 0.08), 5.0, true)
-		# Draw glowing vibrant progress arc starting from top (-90 degrees)
-		if progress > 0.0:
-			var start_angle = -PI / 2.0
-			var end_angle = start_angle + progress * TAU
-			# Draw arc shadow
-			draw_arc(center, radius, start_angle, end_angle, 128, Color(0.1, 0.4, 0.2), 7.0, true)
-			# Draw actual progress arc
-			draw_arc(center, radius, start_angle, end_angle, 128, Color(0.3, 0.95, 0.4), 4.0, true)
+		var c = size / 2.0
+		var r = min(size.x, size.y) / 2.0 - 4.0
 
-# ──── Lifecycle ────────────────────────────────────────────────
+		# Background ring - dark muted green
+		draw_arc(c, r, 0.0, TAU, 128, Color(0.06, 0.15, 0.08), 5.0, true)
+
+		if progress > 0.0:
+			var a0 = -PI / 2.0
+			var a1 = a0 + progress * TAU
+			# 3-layer neon glow
+			draw_arc(c, r, a0, a1, 128, Color(0.3, 0.9, 0.4, 0.18), 13.0, true)
+			draw_arc(c, r, a0, a1, 128, Color(0.3, 0.9, 0.4, 0.50), 7.0, true)
+			draw_arc(c, r, a0, a1, 128, Color(0.85, 1.0, 0.88, 0.95), 3.0, true)
+
+# ──── Lifecycle ─────────────────────────────────────────────────
 func _ready() -> void:
-	# Keep layer high to cover normal game HUD
 	layer = 100
 	_build_ui()
 	_connect_signals()
 	_set_idle_mode()
 	_run_entrance_transition()
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event is InputEventKey and event.pressed:
+		# Check for Backslash key (which is Key.KEY_BACKSLASH or KEY_BACKSLASH)
+		if event.keycode == KEY_BACKSLASH:
+			if _is_active and FocusManager.is_focusing:
+				# Advance 60 seconds (1 minute) per press
+				FocusManager.elapsed_seconds = min(FocusManager.focus_duration_seconds, FocusManager.elapsed_seconds + 60.0)
+				# Trigger an immediate tick update
+				FocusManager.focus_tick.emit(FocusManager.elapsed_seconds, FocusManager.focus_duration_seconds)
 
 func _connect_signals() -> void:
 	FocusManager.focus_started.connect(_on_focus_started)
@@ -66,269 +75,308 @@ func _connect_signals() -> void:
 	FocusManager.focus_abandoned.connect(_on_focus_abandoned)
 
 func _build_ui() -> void:
-	# 1. Dark background
+	# === BACKGROUND ===
 	_bg = ColorRect.new()
 	_bg.set_anchors_preset(Control.PRESET_FULL_RECT)
-	# Start transparent for transition
-	_bg.color = Color(0.03, 0.09, 0.04, 0.0)
+	_bg.color = Color(0.03, 0.08, 0.04, 0.0)
 	add_child(_bg)
 
-	# 2. Content container (hidden during transition)
+
+	# === CONTENT ROOT (faded in during transition) ===
 	_content_root = Control.new()
 	_content_root.set_anchors_preset(Control.PRESET_FULL_RECT)
 	_content_root.modulate.a = 0.0
 	add_child(_content_root)
 
-	# Center vertical layout
+	# CenterContainer to keep everything vertically centered
+	var center = CenterContainer.new()
+	center.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_content_root.add_child(center)
+
+	# Glass card - made more compact
+	var card = PanelContainer.new()
+	card.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	card.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	var card_s = StyleBoxFlat.new()
+	card_s.bg_color = Color(0.05, 0.17, 0.08, 0.92)
+	card_s.corner_radius_top_left    = 16
+	card_s.corner_radius_top_right   = 16
+	card_s.corner_radius_bottom_left = 16
+	card_s.corner_radius_bottom_right = 16
+	card_s.border_width_left  = 1; card_s.border_width_right  = 1
+	card_s.border_width_top   = 1; card_s.border_width_bottom = 1
+	card_s.border_color = Color(0.25, 0.65, 0.32, 0.45)
+	card_s.shadow_color = Color(0, 0.2, 0.04, 0.4)
+	card_s.shadow_size = 8
+	card_s.content_margin_left  = 18; card_s.content_margin_right  = 18
+	card_s.content_margin_top   = 12; card_s.content_margin_bottom = 12
+	card.add_theme_stylebox_override("panel", card_s)
+	center.add_child(card)
+
 	var vbox = VBoxContainer.new()
-	vbox.set_anchors_preset(Control.PRESET_FULL_RECT)
 	vbox.alignment = BoxContainer.ALIGNMENT_CENTER
-	vbox.add_theme_constant_override("separation", 8)
-	_content_root.add_child(vbox)
+	vbox.add_theme_constant_override("separation", 6)
+	card.add_child(vbox)
 
-	# ── Top Section (Avatar & Title) ──
-	var top_vbox = VBoxContainer.new()
-	top_vbox.alignment = BoxContainer.ALIGNMENT_CENTER
-	top_vbox.add_theme_constant_override("separation", 4)
-	vbox.add_child(top_vbox)
+	# === AVATAR CIRCLE ===
+	# Outer wrapper for layout; holds glow ring + viewport (reduced to 44x44)
+	var avatar_wrapper = Control.new()
+	avatar_wrapper.custom_minimum_size = Vector2(44, 44)
+	avatar_wrapper.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	vbox.add_child(avatar_wrapper)
 
-	# Circular Avatar Frame
-	_avatar_panel = PanelContainer.new()
-	_avatar_panel.custom_minimum_size = Vector2(40, 40)
-	_avatar_panel.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
-	
-	var style_circle = StyleBoxFlat.new()
-	style_circle.bg_color = Color(0.08, 0.22, 0.11)
-	style_circle.corner_radius_top_left = 20
-	style_circle.corner_radius_top_right = 20
-	style_circle.corner_radius_bottom_left = 20
-	style_circle.corner_radius_bottom_right = 20
-	style_circle.border_width_left = 2
-	style_circle.border_width_top = 2
-	style_circle.border_width_right = 2
-	style_circle.border_width_bottom = 2
-	style_circle.border_color = Color(1, 1, 1, 0.9)
-	_avatar_panel.add_theme_stylebox_override("panel", style_circle)
-	top_vbox.add_child(_avatar_panel)
+	# Glow ring panel
+	var ring_panel = Panel.new()
+	ring_panel.set_anchors_preset(Control.PRESET_FULL_RECT)
+	var ring_s = StyleBoxFlat.new()
+	ring_s.bg_color = Color(0.04, 0.14, 0.07)
+	ring_s.corner_radius_top_left    = 22
+	ring_s.corner_radius_top_right   = 22
+	ring_s.corner_radius_bottom_left = 22
+	ring_s.corner_radius_bottom_right = 22
+	ring_s.border_width_left  = 2; ring_s.border_width_right  = 2
+	ring_s.border_width_top   = 2; ring_s.border_width_bottom = 2
+	ring_s.border_color = Color(0.35, 1.0, 0.45)
+	ring_s.shadow_color = Color(0.35, 1.0, 0.45, 0.55)
+	ring_s.shadow_size = 5
+	ring_panel.add_theme_stylebox_override("panel", ring_s)
+	avatar_wrapper.add_child(ring_panel)
 
-	# Title
-	_title_label = Label.new()
-	_title_label.text = "FOCUS MODE"
-	_title_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	var font_settings = LabelSettings.new()
-	font_settings.font_size = 14
-	font_settings.font_color = Color(1.0, 1.0, 1.0)
-	font_settings.shadow_color = Color(0, 0, 0, 0.5)
-	font_settings.shadow_offset = Vector2(1, 1)
-	_title_label.label_settings = font_settings
-	top_vbox.add_child(_title_label)
+	# SubViewportContainer for the AnimatedSprite2D avatar
+	var svc = SubViewportContainer.new()
+	svc.stretch = true
+	svc.set_anchors_preset(Control.PRESET_FULL_RECT)
+	avatar_wrapper.add_child(svc)
 
-	# ── Ring Progress Section ──
-	var center_control = Control.new()
-	center_control.custom_minimum_size = Vector2(140, 140)
-	center_control.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
-	vbox.add_child(center_control)
+	_avatar_panel = avatar_wrapper  # used later to get global_rect for transition
+
+	var svp = SubViewport.new()
+	svp.size = Vector2i(44, 44)
+	svp.transparent_bg = true
+	svp.render_target_update_mode = SubViewport.UPDATE_ALWAYS
+	svc.add_child(svp)
+
+	# === TITLE ===
+	var title = Label.new()
+	title.text = "FOCUS MODE"
+	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	var ts = LabelSettings.new()
+	ts.font = custom_font
+	ts.font_size = 14
+	ts.font_color = Color(0.92, 1.0, 0.92)
+	ts.shadow_color = Color(0, 0.2, 0.05, 0.6)
+	ts.shadow_offset = Vector2(1, 1)
+	title.label_settings = ts
+	vbox.add_child(title)
+
+	# === RING + TREE ===
+	var ring_wrapper = Control.new()
+	ring_wrapper.custom_minimum_size = Vector2(116, 116)
+	ring_wrapper.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	vbox.add_child(ring_wrapper)
 
 	_progress_ring = FocusProgressRing.new()
 	_progress_ring.set_anchors_preset(Control.PRESET_FULL_RECT)
-	center_control.add_child(_progress_ring)
+	ring_wrapper.add_child(_progress_ring)
 
-	# Growing Tree Sprite (inside the ring)
 	_tree_sprite = Sprite2D.new()
 	_tree_sprite.texture = preload("res://Assets/game/Objects/Basic_Plants.png")
 	_tree_sprite.hframes = 6
 	_tree_sprite.vframes = 2
 	_tree_sprite.frame = 0
-	_tree_sprite.position = Vector2(70, 52)
-	_tree_sprite.scale = Vector2(2.5, 2.5) # nice and visible
-	center_control.add_child(_tree_sprite)
+	_tree_sprite.position = Vector2(58, 42) # Horizontally centered (116/2) and vertically placed above timer
+	_tree_sprite.scale = Vector2(1.8, 1.8)
+	ring_wrapper.add_child(_tree_sprite)
 
-	# Big countdown label
 	_countdown_label = Label.new()
-	_countdown_label.text = "25:00"
 	_countdown_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_countdown_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	var cd_settings = LabelSettings.new()
-	cd_settings.font_size = 20
-	cd_settings.font_color = Color(1, 1, 1)
-	_countdown_label.label_settings = cd_settings
+	var cs = LabelSettings.new()
+	cs.font = custom_font
+	cs.font_size = 18
+	cs.font_color = Color(1, 1, 1)
+	cs.shadow_color = Color(0, 0.1, 0, 0.6)
+	cs.shadow_offset = Vector2(0, 1)
+	_countdown_label.label_settings = cs
 	_countdown_label.set_anchors_preset(Control.PRESET_FULL_RECT)
-	# position label in bottom third of the ring
-	_countdown_label.offset_top = 80
-	center_control.add_child(_countdown_label)
+	# Center it vertically in the lower half of the 116x116 ring, aligned exactly to the center line of the circle
+	_countdown_label.offset_top = 66
+	_countdown_label.offset_bottom = -14
+	ring_wrapper.add_child(_countdown_label)
 
-	# ── Duration and Status Hint ──
-	_dur_hint = Label.new()
-	_dur_hint.text = "25 min real = 4 hrs in-game ⏰"
-	_dur_hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	var hint_settings = LabelSettings.new()
-	hint_settings.font_size = 8
-	hint_settings.font_color = Color(0.7, 1.0, 0.7, 0.8)
-	_dur_hint.label_settings = hint_settings
-	vbox.add_child(_dur_hint)
+	# === HINT ===
+	var hint = Label.new()
+	hint.text = "25 min real = 4 hrs in-game ⏰"
+	hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	var hs = LabelSettings.new()
+	hs.font = custom_font
+	hs.font_size = 8
+	hs.font_color = Color(0.7, 0.95, 0.7, 0.85)
+	hint.label_settings = hs
+	vbox.add_child(hint)
 
-	# ── Duration pills ──
+	# === DURATION PILLS ===
 	_duration_row = HBoxContainer.new()
 	_duration_row.alignment = BoxContainer.ALIGNMENT_CENTER
-	_duration_row.add_theme_constant_override("separation", 10)
+	_duration_row.add_theme_constant_override("separation", 6)
 	vbox.add_child(_duration_row)
 
-	var style_normal = StyleBoxFlat.new()
-	style_normal.bg_color = Color(0.08, 0.22, 0.11)
-	style_normal.corner_radius_top_left = 12
-	style_normal.corner_radius_top_right = 12
-	style_normal.corner_radius_bottom_left = 12
-	style_normal.corner_radius_bottom_right = 12
-	style_normal.border_width_left = 1
-	style_normal.border_width_top = 1
-	style_normal.border_width_right = 1
-	style_normal.border_width_bottom = 1
-	style_normal.border_color = Color(0.2, 0.5, 0.3)
+	var pill_style = StyleBoxFlat.new()
+	pill_style.bg_color = Color(0.05, 0.16, 0.08)
+	pill_style.corner_radius_top_left    = 10
+	pill_style.corner_radius_top_right   = 10
+	pill_style.corner_radius_bottom_left = 10
+	pill_style.corner_radius_bottom_right = 10
+	pill_style.border_width_left  = 1; pill_style.border_width_right  = 1
+	pill_style.border_width_top   = 1; pill_style.border_width_bottom = 1
+	pill_style.border_color = Color(0.22, 0.52, 0.28)
 
 	for mins in DURATIONS:
 		var btn = Button.new()
 		btn.text = "%d min" % mins
-		btn.custom_minimum_size = Vector2(65, 26)
-		btn.add_theme_stylebox_override("normal", style_normal)
-		btn.add_theme_stylebox_override("hover", style_normal)
-		btn.add_theme_stylebox_override("pressed", style_normal)
-		btn.add_theme_font_size_override("font_size", 9)
+		btn.custom_minimum_size = Vector2(56, 22)
+		btn.add_theme_stylebox_override("normal", pill_style)
+		btn.add_theme_stylebox_override("hover", pill_style)
+		btn.add_theme_stylebox_override("pressed", pill_style)
+		btn.add_theme_font_override("font", custom_font)
+		btn.add_theme_font_size_override("font_size", 8)
 		btn.pressed.connect(_on_duration_selected.bind(mins))
 		_duration_row.add_child(btn)
 		_duration_buttons.append(btn)
 
-	# ── Status text ──
+	# === STATUS TEXT ===
 	_status_label = Label.new()
-	_status_label.text = "Plant a tree and stay focused!\nAbandon = tree dies 🥀"
 	_status_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	var status_settings = LabelSettings.new()
-	status_settings.font_size = 9
-	status_settings.font_color = Color(0.8, 0.9, 0.8)
-	_status_label.label_settings = status_settings
+	var ss = LabelSettings.new()
+	ss.font = custom_font
+	ss.font_size = 8
+	ss.font_color = Color(0.85, 0.95, 0.85)
+	_status_label.label_settings = ss
 	vbox.add_child(_status_label)
 
-	# ── Buttons row ──
+	# === ACTION BUTTONS ===
 	var btn_row = HBoxContainer.new()
 	btn_row.alignment = BoxContainer.ALIGNMENT_CENTER
-	btn_row.add_theme_constant_override("separation", 12)
+	btn_row.add_theme_constant_override("separation", 8)
 	vbox.add_child(btn_row)
 
-	var style_action = StyleBoxFlat.new()
-	style_action.bg_color = Color(0.12, 0.45, 0.22)
-	style_action.corner_radius_top_left = 14
-	style_action.corner_radius_top_right = 14
-	style_action.corner_radius_bottom_left = 14
-	style_action.corner_radius_bottom_right = 14
+	var go_style = StyleBoxFlat.new()
+	go_style.bg_color = Color(0.13, 0.50, 0.22)
+	go_style.corner_radius_top_left    = 12
+	go_style.corner_radius_top_right   = 12
+	go_style.corner_radius_bottom_left = 12
+	go_style.corner_radius_bottom_right = 12
+	go_style.shadow_color = Color(0.12, 0.55, 0.22, 0.3)
+	go_style.shadow_size = 4
 
 	_action_btn = Button.new()
 	_action_btn.text = "🌱 Start Growing"
-	_action_btn.custom_minimum_size = Vector2(130, 30)
-	_action_btn.add_theme_stylebox_override("normal", style_action)
-	_action_btn.add_theme_font_size_override("font_size", 10)
+	_action_btn.custom_minimum_size = Vector2(100, 26)
+	_action_btn.add_theme_stylebox_override("normal", go_style)
+	_action_btn.add_theme_stylebox_override("hover", go_style)
+	_action_btn.add_theme_stylebox_override("pressed", go_style)
+	_action_btn.add_theme_font_override("font", custom_font)
+	_action_btn.add_theme_font_size_override("font_size", 8)
 	_action_btn.pressed.connect(_on_action_pressed)
 	btn_row.add_child(_action_btn)
 
-	var style_close = StyleBoxFlat.new()
-	style_close.bg_color = Color(0.35, 0.15, 0.15)
-	style_close.corner_radius_top_left = 14
-	style_close.corner_radius_top_right = 14
-	style_close.corner_radius_bottom_left = 14
-	style_close.corner_radius_bottom_right = 14
+	var cl_style = StyleBoxFlat.new()
+	cl_style.bg_color = Color(0.17, 0.17, 0.17, 0.92)
+	cl_style.corner_radius_top_left    = 12
+	cl_style.corner_radius_top_right   = 12
+	cl_style.corner_radius_bottom_left = 12
+	cl_style.corner_radius_bottom_right = 12
+	cl_style.border_width_left  = 1; cl_style.border_width_right  = 1
+	cl_style.border_width_top   = 1; cl_style.border_width_bottom = 1
+	cl_style.border_color = Color(0.4, 0.4, 0.4, 0.35)
 
 	_close_btn = Button.new()
 	_close_btn.text = "✕ Close"
-	_close_btn.custom_minimum_size = Vector2(75, 30)
-	_close_btn.add_theme_stylebox_override("normal", style_close)
-	_close_btn.add_theme_font_size_override("font_size", 10)
+	_close_btn.custom_minimum_size = Vector2(64, 26)
+	_close_btn.add_theme_stylebox_override("normal", cl_style)
+	_close_btn.add_theme_stylebox_override("hover", cl_style)
+	_close_btn.add_theme_stylebox_override("pressed", cl_style)
+	_close_btn.add_theme_font_override("font", custom_font)
+	_close_btn.add_theme_font_size_override("font_size", 8)
 	_close_btn.pressed.connect(_on_close_pressed)
 	btn_row.add_child(_close_btn)
 
-# ──── Transition Logic ──────────────────────────────────────────
+# ──── Entrance Transition ───────────────────────────────────────
 func _run_entrance_transition() -> void:
-	# Find EmotesPanel in the tree
-	var emotes_panel = _find_emotes_panel(get_tree().root)
+	var emotes_panel = _find_node("EmotesPanel", get_tree().root)
 	if not emotes_panel:
-		# Fallback: instantly fade in
-		var t = create_tween()
-		t.tween_property(_bg, "color:a", 0.95, 0.3)
-		t.tween_property(_content_root, "modulate:a", 1.0, 0.3)
+		var t = create_tween().set_parallel(true)
+		t.tween_property(_bg, "color:a", 0.96, 0.35)
+		t.tween_property(_content_root, "modulate:a", 1.0, 0.4)
 		return
 
-	# Hide original emotes panel during transition
 	emotes_panel.visible = false
+	var orig_sprite = emotes_panel.get_node_or_null("Emote/AnimatedSprite2D")
 
-	# Create transition avatar clone
-	var original_sprite = emotes_panel.get_node_or_null("Emote/AnimatedSprite2D")
-	if original_sprite:
+	if orig_sprite:
 		_clone_avatar = AnimatedSprite2D.new()
-		_clone_avatar.sprite_frames = original_sprite.sprite_frames
-		_clone_avatar.animation = original_sprite.animation
-		_clone_avatar.frame = original_sprite.frame
-		_clone_avatar.play(original_sprite.animation)
-		
-		# Position clone exactly at emotes_panel center
-		var g_rect = emotes_panel.get_global_rect()
-		_clone_avatar.global_position = g_rect.position + g_rect.size / 2.0
+		_clone_avatar.sprite_frames = orig_sprite.sprite_frames
+		_clone_avatar.animation = orig_sprite.animation
+		_clone_avatar.play(orig_sprite.animation)
+		var g = emotes_panel.get_global_rect()
+		_clone_avatar.global_position = g.position + g.size * 0.5
 		_clone_avatar.scale = Vector2(1.0, 1.0)
 		add_child(_clone_avatar)
 
-	# Run parallax expansion tween
-	var tween = create_tween().set_parallel(true)
-	tween.tween_property(_bg, "color:a", 0.96, 0.6).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-	
-	if _clone_avatar:
-		# Zoom out from top-left, expanding to center of the viewport (internal size 640x360)
-		tween.tween_property(_clone_avatar, "global_position", Vector2(320, 180), 0.6).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-		tween.tween_property(_clone_avatar, "scale", Vector2(12.0, 12.0), 0.6).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	await get_tree().process_frame
+	var target = _avatar_panel.global_position + _avatar_panel.size * 0.5
 
-	# When expansion ends, fade clone out and fade UI in
-	await tween.finished
-	
-	var tween_reveal = create_tween().set_parallel(true)
+	var tw = create_tween().set_parallel(true)
+	tw.tween_property(_bg, "color:a", 0.96, 0.55).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 	if _clone_avatar:
-		tween_reveal.tween_property(_clone_avatar, "modulate:a", 0.0, 0.25)
-	tween_reveal.tween_property(_content_root, "modulate:a", 1.0, 0.35)
-	
-	# Instantiate actual Teemo sprite inside the White Glow Circle Avatar frame
-	if original_sprite:
-		var inner_avatar = AnimatedSprite2D.new()
-		inner_avatar.sprite_frames = original_sprite.sprite_frames
-		inner_avatar.animation = "emote_1_idle"
-		inner_avatar.play("emote_1_idle")
-		inner_avatar.position = Vector2(20, 20) # center of 40x40 panel
-		inner_avatar.scale = Vector2(0.9, 0.9)
-		_avatar_panel.add_child(inner_avatar)
+		tw.tween_property(_clone_avatar, "global_position", target, 0.55).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		tw.tween_property(_clone_avatar, "scale", Vector2(0.85, 0.85), 0.55).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	await tw.finished
 
-	await tween_reveal.finished
+	var tw2 = create_tween().set_parallel(true)
+	if _clone_avatar:
+		tw2.tween_property(_clone_avatar, "modulate:a", 0.0, 0.2)
+	tw2.tween_property(_content_root, "modulate:a", 1.0, 0.3)
+
+	if orig_sprite:
+		# avatar_wrapper → child[1] = SubViewportContainer → child[0] = SubViewport
+		var svc_node = _avatar_panel.get_child(1) if _avatar_panel.get_child_count() > 1 else null
+		var svp2 = svc_node.get_child(0) if svc_node and svc_node.get_child_count() > 0 else null
+		if svp2:
+			var inner = AnimatedSprite2D.new()
+			inner.sprite_frames = orig_sprite.sprite_frames
+			inner.animation = "emote_1_idle"
+			inner.play("emote_1_idle")
+			inner.position = Vector2(22, 22) # Perfectly centered in 44x44
+			inner.scale = Vector2(0.9, 0.9)
+			svp2.add_child(inner)
+
+	await tw2.finished
 	if _clone_avatar:
 		_clone_avatar.queue_free()
 		_clone_avatar = null
 
-func _find_emotes_panel(node: Node) -> Node:
-	if node.name == "EmotesPanel":
+func _find_node(target_name: String, node: Node) -> Node:
+	if node.name == target_name:
 		return node
 	for child in node.get_children():
-		var found = _find_emotes_panel(child)
-		if found:
-			return found
+		var r = _find_node(target_name, child)
+		if r:
+			return r
 	return null
 
 # ──── Interactions ──────────────────────────────────────────────
 func _on_duration_selected(mins: int) -> void:
-	if _is_active:
-		return
+	if _is_active: return
 	_selected_duration = mins
-	_refresh_duration_buttons()
-	_update_countdown_display(0.0, float(mins) * 60.0)
+	_refresh_pills()
+	_update_clock(0.0, float(mins) * 60.0)
 
-func _refresh_duration_buttons() -> void:
+func _refresh_pills() -> void:
 	for i in _duration_buttons.size():
 		var btn: Button = _duration_buttons[i]
 		btn.disabled = _is_active
-		if DURATIONS[i] == _selected_duration:
-			btn.modulate = Color(0.4, 1.0, 0.5)
-		else:
-			btn.modulate = Color.WHITE
+		btn.modulate = Color(0.45, 1.0, 0.55) if DURATIONS[i] == _selected_duration else Color.WHITE
 
 func _on_action_pressed() -> void:
 	if _is_active:
@@ -337,55 +385,43 @@ func _on_action_pressed() -> void:
 		FocusManager.start_focus(_selected_duration)
 
 func _on_close_pressed() -> void:
-	if not _is_active:
-		# Unhide original emotes panel
-		var emotes_panel = _find_emotes_panel(get_tree().root)
-		if emotes_panel:
-			emotes_panel.visible = true
-		
-		# Slide/Fade out transition
-		var tween = create_tween().set_parallel(true)
-		tween.tween_property(_content_root, "modulate:a", 0.0, 0.25)
-		tween.tween_property(_bg, "color:a", 0.0, 0.3)
-		await tween.finished
-		queue_free()
+	if _is_active: return
+	var ep = _find_node("EmotesPanel", get_tree().root)
+	if ep: ep.visible = true
+	var tw = create_tween().set_parallel(true)
+	tw.tween_property(_content_root, "modulate:a", 0.0, 0.22)
+	tw.tween_property(_bg, "color:a", 0.0, 0.28)
+	await tw.finished
+	queue_free()
 
-# ──── FocusManager Signal Handlers ─────────────────────────────
-func _on_focus_started(_duration_minutes: int) -> void:
+# ──── FocusManager signals ──────────────────────────────────────
+func _on_focus_started(_dur: int) -> void:
 	_is_active = true
 	_set_active_mode()
 
 func _on_focus_tick(elapsed: float, total: float) -> void:
-	_update_countdown_display(elapsed, total)
+	_update_clock(elapsed, total)
 	_progress_ring.progress = elapsed / total
-	
-	# Crop sprite stages: Tomato growth cycles (frame 0 to 5 of Basic_Plants.png)
-	var progress: float = elapsed / total
-	if progress < 0.2:
-		_tree_sprite.frame = 0 # small sprout
-	elif progress < 0.4:
-		_tree_sprite.frame = 1 # sprout leaves
-	elif progress < 0.6:
-		_tree_sprite.frame = 2 # growing plant
-	elif progress < 0.8:
-		_tree_sprite.frame = 3 # taller crop
-	elif progress < 0.95:
-		_tree_sprite.frame = 4 # flowering
-	else:
-		_tree_sprite.frame = 5 # full fruit!
+	var p = elapsed / total
+	_tree_sprite.frame = (
+		1 if p < 0.2 else
+		2 if p < 0.4 else
+		3 if p < 0.6 else
+		4 if p < 0.8 else
+		5
+	)
 
 func _on_focus_completed() -> void:
 	_is_active = false
-	_has_completed = true
 	_tree_sprite.frame = 5
 	_countdown_label.text = "00:00"
 	_progress_ring.progress = 1.0
-	_status_label.text = "🎉 Your tree has bloomed! Outstanding focus!"
-	_action_btn.text = "🌸 Success!"
+	_status_label.text = "🎉 Your tree bloomed! Great focus!"
+	_action_btn.text = "🌸 Done!"
 	_action_btn.disabled = true
 	_close_btn.visible = true
 	_duration_row.visible = true
-	_refresh_duration_buttons()
+	_refresh_pills()
 
 func _on_focus_abandoned() -> void:
 	_is_active = false
@@ -396,17 +432,13 @@ func _on_focus_abandoned() -> void:
 	_action_btn.disabled = false
 	_duration_row.visible = true
 	_close_btn.visible = true
-	_refresh_duration_buttons()
-	
-	# Auto-reset status after 3 seconds
+	_refresh_pills()
 	await get_tree().create_timer(3.0).timeout
 	if is_instance_valid(self) and not _is_active:
 		_set_idle_mode()
 
-# ──── Mode Helpers ─────────────────────────────────────────────
 func _set_idle_mode() -> void:
 	_is_active = false
-	_has_completed = false
 	_tree_sprite.frame = 0
 	_status_label.text = "Plant a tree and stay focused!\nAbandon = tree dies 🥀"
 	_action_btn.text = "🌱 Start Growing"
@@ -414,20 +446,17 @@ func _set_idle_mode() -> void:
 	_close_btn.visible = true
 	_duration_row.visible = true
 	_progress_ring.progress = 0.0
-	_refresh_duration_buttons()
-	_update_countdown_display(0.0, float(_selected_duration) * 60.0)
+	_refresh_pills()
+	_update_clock(0.0, float(_selected_duration) * 60.0)
 
 func _set_active_mode() -> void:
-	_tree_sprite.frame = 0
+	_tree_sprite.frame = 1
 	_status_label.text = "Stay focused! Your tree is growing..."
-	_action_btn.text = "🗑️ Abandon (kills tree)"
+	_action_btn.text = "🗑️ Abandon"
 	_action_btn.disabled = false
-	_close_btn.visible = false  # Can't close while focusing!
+	_close_btn.visible = false
 	_duration_row.visible = false
 
-# ──── Display Helpers ──────────────────────────────────────────
-func _update_countdown_display(elapsed: float, total: float) -> void:
-	var remaining: float = max(0.0, total - elapsed)
-	var mins: int = int(remaining) / 60
-	var secs: int = int(remaining) % 60
-	_countdown_label.text = "%02d:%02d" % [mins, secs]
+func _update_clock(elapsed: float, total: float) -> void:
+	var rem = max(0.0, total - elapsed)
+	_countdown_label.text = "%02d:%02d" % [int(rem) / 60, int(rem) % 60]
