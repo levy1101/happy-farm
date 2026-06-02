@@ -15,11 +15,11 @@ shader_parameter/replace_1 = Color(0.848761, 0.451561, 0.16668, 1)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_5t3e8"]
 atlas = ExtResource("1_rahkq")
-region = Rect2(0, 0, 48, 48)
+region = Rect2(0, 0, 384, 384)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_e5vc3"]
 atlas = ExtResource("1_rahkq")
-region = Rect2(48, 0, 48, 48)
+region = Rect2(384, 0, 384, 384)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_q2u6p"]
 animations = [{
@@ -46,6 +46,7 @@ position = Vector2(0, 1)
 script = ExtResource("1_0lmh6")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.125, 0.125)
 y_sort_enabled = true
 material = SubResource("ShaderMaterial_p2q2d")
 position = Vector2(0, -8)
