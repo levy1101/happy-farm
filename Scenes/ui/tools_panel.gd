@@ -8,14 +8,15 @@ extends PanelContainer
 
 func _ready() -> void:
 	ToolManager.enable_tool.connect(on_enable_tool)
+	tool_axe.focus_mode = Control.FOCUS_NONE
 	tool_tilling.disabled = false
-	tool_tilling.focus_mode = Control.FOCUS_ALL #Focus mode options
+	tool_tilling.focus_mode = Control.FOCUS_NONE #Focus mode options
 	tool_watering_can.disabled = false
-	tool_watering_can.focus_mode = Control.FOCUS_ALL
+	tool_watering_can.focus_mode = Control.FOCUS_NONE
 	tool_corn.disabled = false
-	tool_corn.focus_mode = Control.FOCUS_ALL
+	tool_corn.focus_mode = Control.FOCUS_NONE
 	tool_tomato.disabled = false
-	tool_tomato.focus_mode = Control.FOCUS_ALL
+	tool_tomato.focus_mode = Control.FOCUS_NONE
 	
 
 func _on_tool_axe_pressed() -> void:
@@ -49,14 +50,14 @@ func _unhandled_input(event: InputEvent) -> void:
 func on_enable_tool(tool:DataTypes.Tools) -> void:
 	if tool == DataTypes.Tools.TillGround:
 		tool_tilling.disabled = false
-		tool_tilling.focus_mode = Control.FOCUS_ALL
+		tool_tilling.focus_mode = Control.FOCUS_NONE
 	elif tool == DataTypes.Tools.WaterCrops:
 		tool_watering_can.disabled = false
-		tool_watering_can.focus_mode = Control.FOCUS_ALL
+		tool_watering_can.focus_mode = Control.FOCUS_NONE
 	elif tool == DataTypes.Tools.PlantCorn:
 		tool_corn.disabled = false
-		tool_corn.focus_mode = Control.FOCUS_ALL
+		tool_corn.focus_mode = Control.FOCUS_NONE
 	elif tool == DataTypes.Tools.PlantTomato:
 		tool_tomato.disabled = false
-		tool_tomato.focus_mode = Control.FOCUS_ALL
+		tool_tomato.focus_mode = Control.FOCUS_NONE
 		
