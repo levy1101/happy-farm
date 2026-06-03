@@ -8,6 +8,8 @@ const DURATIONS: Array = [25, 45, 60]
 
 var _selected_duration: int = 25
 var _is_active: bool = false
+var _plant_row_offset: int = 0
+var _is_completed: bool = false
 
 # ──── UI References ─────────────────────────────────────────────
 var _bg: ColorRect
@@ -53,6 +55,7 @@ class FocusProgressRing extends Control:
 # ──── Lifecycle ─────────────────────────────────────────────────
 func _ready() -> void:
 	layer = 100
+	_plant_row_offset = (randi() % 2) * 6
 	_build_ui()
 	_connect_signals()
 	_set_idle_mode()
@@ -183,7 +186,7 @@ func _build_ui() -> void:
 	_tree_sprite.texture = preload("res://Assets/game/Objects/Basic_Plants.png")
 	_tree_sprite.hframes = 6
 	_tree_sprite.vframes = 2
-	_tree_sprite.frame = 0
+	_tree_sprite.frame = _plant_row_offset
 	_tree_sprite.position = Vector2(58, 42) # Horizontally centered (116/2) and vertically placed above timer
 	_tree_sprite.scale = Vector2(1.8, 1.8)
 	ring_wrapper.add_child(_tree_sprite)
@@ -379,7 +382,14 @@ func _refresh_pills() -> void:
 		btn.modulate = Color(0.45, 1.0, 0.55) if DURATIONS[i] == _selected_duration else Color.WHITE
 
 func _on_action_pressed() -> void:
-	if _is_active:
+	if _is_completed:
+		# Add 5 of the corresponding crop to the inventory
+		var crop_name = "tomato" if _plant_row_offset == 6 else "corn"
+		for i in range(5):
+			InventoryManager.add_collectable(crop_name)
+		_is_completed = false
+		_on_close_pressed()
+	elif _is_active:
 		FocusManager.abandon_focus()
 	else:
 		FocusManager.start_focus(_selected_duration)
@@ -403,7 +413,7 @@ func _on_focus_tick(elapsed: float, total: float) -> void:
 	_update_clock(elapsed, total)
 	_progress_ring.progress = elapsed / total
 	var p = elapsed / total
-	_tree_sprite.frame = (
+	_tree_sprite.frame = _plant_row_offset + (
 		1 if p < 0.2 else
 		2 if p < 0.4 else
 		3 if p < 0.6 else
@@ -413,19 +423,21 @@ func _on_focus_tick(elapsed: float, total: float) -> void:
 
 func _on_focus_completed() -> void:
 	_is_active = false
-	_tree_sprite.frame = 5
+	_is_completed = true
+	_tree_sprite.frame = _plant_row_offset + 5
 	_countdown_label.text = "00:00"
 	_progress_ring.progress = 1.0
 	_status_label.text = "🎉 Your tree bloomed! Great focus!"
-	_action_btn.text = "🌸 Done!"
-	_action_btn.disabled = true
-	_close_btn.visible = true
-	_duration_row.visible = true
+	_action_btn.text = "🎁 Collect and Close"
+	_action_btn.disabled = false
+	_close_btn.visible = false
+	_duration_row.visible = false
 	_refresh_pills()
 
 func _on_focus_abandoned() -> void:
 	_is_active = false
-	_tree_sprite.frame = 0
+	_is_completed = false
+	_tree_sprite.frame = _plant_row_offset + 0
 	_countdown_label.text = "--:--"
 	_status_label.text = "🥀 The tree has wilted..."
 	_action_btn.text = "Try Again"
@@ -439,7 +451,8 @@ func _on_focus_abandoned() -> void:
 
 func _set_idle_mode() -> void:
 	_is_active = false
-	_tree_sprite.frame = 0
+	_is_completed = false
+	_tree_sprite.frame = _plant_row_offset + 0
 	_status_label.text = "Plant a tree and stay focused!\nAbandon = tree dies 🥀"
 	_action_btn.text = "🌱 Start Growing"
 	_action_btn.disabled = false
@@ -450,7 +463,7 @@ func _set_idle_mode() -> void:
 	_update_clock(0.0, float(_selected_duration) * 60.0)
 
 func _set_active_mode() -> void:
-	_tree_sprite.frame = 1
+	_tree_sprite.frame = _plant_row_offset + 1
 	_status_label.text = "Stay focused! Your tree is growing..."
 	_action_btn.text = "🗑️ Abandon"
 	_action_btn.disabled = false
