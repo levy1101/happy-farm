@@ -18,6 +18,7 @@
 [ext_resource type="PackedScene" uid="uid://bvuvjk0dvc41u" path="res://Scenes/characters/guide/guide.tscn" id="18_gmu6d"]
 [ext_resource type="PackedScene" uid="uid://cqie0vs3dmpm6" path="res://Scenes/objects/chest/chest.tscn" id="19_mr080"]
 [ext_resource type="PackedScene" uid="uid://bed_interactable_uid" path="res://Scenes/objects/bed_interactable.tscn" id="21_bed"]
+[ext_resource type="Script" path="res://Scenes/levels/level_2.gd" id="22_level_script"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_jxko8"]
 vertices = PackedVector2Array(299, 309, 390.758, 309, 300.828, 337.203, 242.117, 345.203, 219.93, 309, 245, 309, 406.523, 69, 459, 69, 459, 117, 459, 182, 491, 117, 491, 131.539, 481.938, 182, 459, 278, 299, 278, 255.602, 80.1328, 245, 278, 213, 278, 213, 69, 224.977, 69, 485.07, 86, 485, 86, 485, 85.8906)
@@ -32,7 +33,9 @@ outlines = Array[PackedVector2Array]([PackedVector2Array(1015, 371, 1018, 620, 8
 source_geometry_mode = 2
 
 [node name="Level2" type="Node2D"]
+script = ExtResource("22_level_script")
 y_sort_enabled = true
+
 
 [node name="MouseCursorComponent" parent="." instance=ExtResource("1_sighl")]
 
@@ -158,7 +161,7 @@ position = Vector2(940, 509)
 position = Vector2(958, 423)
 
 [node name="Cow7" parent="Cows" instance=ExtResource("10_f0j1o")]
-position = Vector2(793, 716)
+position = Vector2(860, 500)
 
 [node name="Guide" parent="." instance=ExtResource("18_gmu6d")]
 y_sort_enabled = true

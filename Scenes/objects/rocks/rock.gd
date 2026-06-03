@@ -11,7 +11,7 @@ func _ready() -> void:
 
 func on_hurt(damage:int) -> void:
 	damage_component.apply_damage(damage)
-	material.set_shader_parameter("shake_intensity",0.7)
+	material.set_shader_parameter("shake_intensity",2.8)
 	await get_tree().create_timer(0.5).timeout #await pauses execution until the specified signal (timeout) triggers
 	material.set_shader_parameter("shake_intensity",0.0)
 	
@@ -21,5 +21,5 @@ func on_max_damaged_reached() -> void:
 	
 func add_log_scene() -> void:
 	var stone_instantiate = stone.instantiate() as Node2D
-	stone_instantiate.global_position = global_position
+	stone_instantiate.position = position
 	get_parent().add_child(stone_instantiate)

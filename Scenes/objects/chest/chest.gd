@@ -54,17 +54,35 @@ func _unhandled_input(event: InputEvent) -> void:
 #Store items in the chest
 func on_feed_the_animals() -> void:
 	if in_range:
-		trigger_feed_harvest("corn", corn_harvest_scene)
-		trigger_feed_harvest("tomato", tomato_harvest_scene)
+		var is_chicken_chest = (dialogue_start_command == "start_chicken_box")
+		if is_chicken_chest:
+			trigger_feed_harvest("corn", corn_harvest_scene)
+		else:
+			trigger_feed_harvest("tomato", tomato_harvest_scene)
 
 
 func trigger_feed_harvest(inventory_item: String, scene: Resource) -> void: 
 	var inventory: Dictionary = InventoryManager.inventory
 	
-	if !inventory.has(inventory_item):
+	if !inventory.has(inventory_item) or inventory[inventory_item] <= 0:
 		return
 	
-	var inventory_item_count = inventory[inventory_item]
+	var inventory_item_count = min(inventory[inventory_item], 3)
+	
+	var is_chicken_chest = (dialogue_start_command == "start_chicken_box")
+	var group_name = "chickens" if is_chicken_chest else "cows"
+	var animals = get_tree().get_nodes_in_group(group_name)
+	
+	if animals.size() > 0:
+		var shuffled_animals = animals.duplicate()
+		shuffled_animals.shuffle()
+		var spawn_count = min(inventory_item_count, shuffled_animals.size())
+		for i in range(spawn_count):
+			var animal = shuffled_animals[i]
+			for reward_scene_packed in output_reward_scenes:
+				var reward_instance = reward_scene_packed.instantiate() as Node2D
+				reward_instance.global_position = animal.global_position
+				get_tree().root.add_child(reward_instance)
 	
 	for index in inventory_item_count:
 		var harvest_instance = scene.instantiate() as Node2D
@@ -83,7 +101,7 @@ func trigger_feed_harvest(inventory_item: String, scene: Resource) -> void:
 		InventoryManager.remove_collectable(inventory_item)
 
 func on_food_received(area: Area2D) -> void:
-	call_deferred("add_reward_scene")
+	pass
 
 
 func add_reward_scene() -> void:
@@ -100,6 +118,6 @@ func get_random_position_in_circle(center: Vector2, radius: int) -> Vector2i:
 	var distance_from_center = sqrt(randf()) * radius
 	
 	var x: int = center.x + distance_from_center * cos(angle)
-	var y: int = center.y + distance_from_center * cos(angle)
+	var y: int = center.y + distance_from_center * sin(angle)
 	
 	return Vector2i(x, y)

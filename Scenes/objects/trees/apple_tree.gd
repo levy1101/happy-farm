@@ -8,5 +8,5 @@ func on_max_damaged_reached() -> void:
 
 func add_apple_scene() -> void:
 	var apple_instantiate = apple.instantiate() as Node2D
-	apple_instantiate.global_position = global_position + Vector2(4,8)
+	apple_instantiate.position = position + Vector2(4,8)
 	get_parent().add_child(apple_instantiate)

@@ -7,6 +7,8 @@ extends NodeState
 @export var max_speed : float = 10.0
 
 var speed: float
+var last_position: Vector2
+var stuck_timer: float = 0.0
 
 func _ready() -> void:
 	navigation_agent_2d.velocity_computed.connect(on_safe_velocity_computed) # 。
@@ -17,20 +19,35 @@ func character_setup() -> void:
 	await get_tree().physics_frame
 	set_movement_target() 
 
-func set_movement_target() -> void:  # #（RID，，false）
+func set_movement_target() -> void:
+	# If animal has a pen boundary set, stay within it
+	if character.pen_bounds.size != Vector2.ZERO:
+		var bounds = character.pen_bounds
+		var random_point = Vector2(
+			randf_range(bounds.position.x, bounds.position.x + bounds.size.x),
+			randf_range(bounds.position.y, bounds.position.y + bounds.size.y)
+		)
+		navigation_agent_2d.target_position = random_point
+		speed = randf_range(min_speed, max_speed)
+		return
+
+	# Fallback: random point anywhere on the navigation map
 	var target_position : Vector2 = NavigationServer2D.map_get_random_point(navigation_agent_2d.get_navigation_map(),navigation_agent_2d.navigation_layers,false)
 	navigation_agent_2d.target_position = target_position
 	speed = randf_range(min_speed,max_speed)
+
 	
 
 func _on_process(_delta : float) -> void:
 	pass
 
 
-func _on_physics_process(_delta : float) -> void:
+func _on_physics_process(delta : float) -> void:
 	if navigation_agent_2d.is_navigation_finished(): # ，+1
 		character.current_walk_cycle += 1
 		set_movement_target()
+		last_position = character.global_position
+		stuck_timer = 0.0
 		return
 			
 	var target_position = navigation_agent_2d.get_next_path_position()
@@ -43,7 +60,16 @@ func _on_physics_process(_delta : float) -> void:
 		character.velocity = velocity
 		character.move_and_slide() 
 
-func on_safe_velocity_computed(safe_velocity : Vector2)->void: # ，，velocity_computed
+	# Stuck detection
+	stuck_timer += delta
+	if stuck_timer >= 1.0:
+		var distance_moved = character.global_position.distance_to(last_position)
+		if distance_moved < 2.0:
+			set_movement_target()
+		last_position = character.global_position
+		stuck_timer = 0.0
+
+func on_safe_velocity_computed(safe_velocity : Vector2)->void: # ，精度，velocity_computed
 	animated_sprite_2d.flip_h = safe_velocity.x < 0
 	character.velocity = safe_velocity 
 	character.move_and_slide() 
@@ -56,6 +82,10 @@ func _on_next_transitions() -> void:
 
 func _on_enter() -> void:
 	animated_sprite_2d.play("walk")
+	character.current_walk_cycle = 0
+	last_position = character.global_position
+	stuck_timer = 0.0
 
 func _on_exit() -> void:
 	animated_sprite_2d.stop()
+
