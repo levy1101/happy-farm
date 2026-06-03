@@ -10,23 +10,23 @@
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_b76wy"]
 atlas = ExtResource("2_m2n5m")
-region = Rect2(0, 0, 32, 32)
+region = Rect2(0, 0, 128, 128)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_y4bij"]
 atlas = ExtResource("2_m2n5m")
-region = Rect2(32, 0, 32, 32)
+region = Rect2(128, 0, 128, 128)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_nrdc6"]
 atlas = ExtResource("2_m2n5m")
-region = Rect2(64, 0, 32, 32)
+region = Rect2(256, 0, 128, 128)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0tpdb"]
 atlas = ExtResource("2_m2n5m")
-region = Rect2(0, 32, 32, 32)
+region = Rect2(0, 128, 128, 128)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bf3uv"]
 atlas = ExtResource("2_m2n5m")
-region = Rect2(32, 32, 32, 32)
+region = Rect2(128, 128, 128, 128)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_y7e87"]
 animations = [{
@@ -66,6 +66,7 @@ collision_mask = 67
 script = ExtResource("1_3g1lu")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.25, 0.25)
 position = Vector2(0, -9)
 sprite_frames = SubResource("SpriteFrames_y7e87")
 animation = &"idle"

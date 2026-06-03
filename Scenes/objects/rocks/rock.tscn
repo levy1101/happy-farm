@@ -14,7 +14,7 @@ shader_parameter/shake_speed = 20.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bhm58"]
 atlas = ExtResource("1_6tqx3")
-region = Rect2(128, 16, 16, 16)
+region = Rect2(512, 64, 64, 64)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7rosg"]
 size = Vector2(12, 5.5)

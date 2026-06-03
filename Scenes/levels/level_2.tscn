@@ -39,6 +39,7 @@ y_sort_enabled = true
 [node name="SaveLevelDataComponent" parent="." instance=ExtResource("1_yp13v")]
 
 [node name="GameTileMap" type="Node2D" parent="."]
+scale = Vector2(0.25, 0.25)
 y_sort_enabled = true
 
 [node name="Water" type="TileMapLayer" parent="GameTileMap"]

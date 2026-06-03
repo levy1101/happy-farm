@@ -32,6 +32,7 @@ source_geometry_mode = 2
 y_sort_enabled = true
 
 [node name="GameTileMap" type="Node2D" parent="."]
+scale = Vector2(0.25, 0.25)
 y_sort_enabled = true
 position = Vector2(0, 224)
 
