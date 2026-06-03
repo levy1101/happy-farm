@@ -17,10 +17,10 @@ atlas = ExtResource("1_6tqx3")
 region = Rect2(512, 64, 64, 64)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7rosg"]
-size = Vector2(12, 5.5)
+size = Vector2(48, 22.0)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_80yty"]
-radius = 7.0
+radius = 28.0
 
 [node name="Rock" type="Sprite2D"]
 material = SubResource("ShaderMaterial_2025a")
@@ -30,7 +30,7 @@ script = ExtResource("2_0t1cs")
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2(0, 2.25)
+position = Vector2(0, 9.0)
 shape = SubResource("RectangleShape2D_7rosg")
 
 [node name="HurtComponent" parent="." instance=ExtResource("2_rjqc8")]

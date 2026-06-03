@@ -17,29 +17,29 @@ atlas = ExtResource("1_ktmdo")
 region = Rect2(192, 0, 128, 128)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_8bw6b"]
-radius = 5.0
+radius = 20.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_nnwfh"]
-radius = 6.0
-height = 18.0
+radius = 24.0
+height = 72.0
 
 [node name="AppleTree" type="Sprite2D"]
 material = SubResource("ShaderMaterial_w0e8t")
-position = Vector2(0, -12)
+position = Vector2(0, -48)
 texture = SubResource("AtlasTexture_g02mx")
 script = ExtResource("2_dvyfr")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2(0, 10)
+position = Vector2(0, 40)
 shape = SubResource("CircleShape2D_8bw6b")
 
 [node name="HurtComponent" parent="." instance=ExtResource("3_tod07")]
 tool = 1
 
 [node name="HurtComponentCollisionShape2D" type="CollisionShape2D" parent="HurtComponent"]
-position = Vector2(0, 6)
+position = Vector2(0, 24)
 shape = SubResource("CapsuleShape2D_nnwfh")
 debug_color = Color(0.885246, 0.288293, 0.431754, 0.42)
 

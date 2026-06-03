@@ -9,7 +9,7 @@ atlas = ExtResource("1_4mqhj")
 region = Rect2(320, 128, 64, 64)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kekvq"]
-size = Vector2(18, 10)
+size = Vector2(72, 40)
 
 [node name="Log" type="Sprite2D"]
 texture = SubResource("AtlasTexture_ha8xs")
