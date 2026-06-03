@@ -6,6 +6,17 @@ Chào mừng bạn đến với tựa game nông trại **Croptails** trên Godo
 
 ## 🎮 1. Hướng Dẫn Cách Chơi (Gameplay Guide)
 
+### ⌨️ Bảng Phím Tắt Hệ Thống (Keyboard Shortcuts)
+* **`W`**, **`A`**, **`S`**, **`D`**: Di chuyển nhân vật (Lên, Trái, Xuống, Phải).
+* **`Shift`**: Giữ phím để chạy nhanh (Sprint).
+* **`E`**: Tương tác với thế giới (Nói chuyện với NPC Gấu Trắng, cho gà/bò ăn tại rương thức ăn).
+* **`K`**: Vào/Thoát chế độ tập trung **Focus Mode** (khi đứng cạnh giường ngủ).
+* **`P`**: Lưu game thủ công (Save Game).
+* **`Esc`**: Mở Menu game (Game Menu).
+* **`Click Chuột Trái` (Left Click)**: Sử dụng công cụ đã chọn (Cuốc đất, gieo hạt, tưới nước).
+* **`Click Chuột Phải` (Right Click)**: Hủy bỏ việc chọn công cụ (Release tool).
+* **`Ctrl + Click Chuột Trái`**: Lấp lại đất ẩm (đưa đất ẩm đã cuốc về trạng thái thảm cỏ bình thường).
+
 ### 🏃 Di chuyển nhân vật
 * Sử dụng các phím **`W`**, **`A`**, **`S`**, **`D`** để đi lại trên nông trại.
 * Giữ phím **`Shift`** để chạy nhanh hơn (Sprint).
@@ -17,6 +28,7 @@ Chào mừng bạn đến với tựa game nông trại **Croptails** trên Godo
 * **Tưới nước**: Chọn **Bình tưới (Watering Can)** $\rightarrow$ Ra mép sông **Click Chuột Trái** để múc đầy nước $\rightarrow$ Đi tới chỗ cây trồng **Click Chuột Trái** để tưới ẩm.
 * **Tua thời gian (Qua ngày mới)**: Để cây lớn lên, bạn cần qua ngày mới. Nhấp vào các nút điều khiển thời gian ở **góc trên bên phải màn hình** để tua nhanh thời gian hoặc chuyển sang ngày hôm sau. Đất sẽ khô đi và cây trồng sẽ lớn thêm 1 giai đoạn.
 * **Thu hoạch**: Khi cây lớn hết cỡ (ra bắp Ngô vàng hoặc quả Cà chua đỏ), bạn chỉ cần **đi bộ đi đè lên cây** để tự động thu hoạch nông sản vào ba lô bên trái.
+
 
 ### 🐻 1.1. Ảnh Đại Diện Biểu Cảm Động (Emotes Panel - Góc Trên Cùng Bên Trái)
 Ảnh đại diện hình chú gấu trắng Kitty ở góc trên cùng bên trái màn hình không chỉ để trang trí mà được lập trình các biểu cảm rất sinh động phản hồi lại hành động của bạn:
